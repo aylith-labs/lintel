@@ -1,0 +1,38 @@
+{
+    "_comment": [
+        "Where a host is allowed to differ from the canonical manifest, and why.",
+        "",
+        "A divergence that is written down is a decision. One that is merely tolerated is drift, and",
+        "the difference between them is this file. Anything not listed here fails the suite.",
+        "",
+        "Each entry names the manifest, the top-level keys that may differ, and the reason -- which",
+        "must be about the HOST, not about the manifest. 'We have not synced it yet' is not a reason;",
+        "it is the failure this suite exists to report."
+    ],
+    "hosts": {
+        "Torbie": [
+            {
+                "manifest": "github.json",
+                "keys": [
+                    "settings",
+                    "matchers"
+                ],
+                "reason": "Owner-less references (repo#123) are resolved in host code -- a cached probe of the candidateOwners setting, falling back to `gh auth token`. Nothing in the format expresses that, so Torbie carries neither the setting nor the matcher it serves; without the probe every such preview would fetch repos//<repo>/issues/<n> and card a 404."
+            },
+            {
+                "manifest": "jira.json",
+                "keys": [
+                    "settings"
+                ],
+                "reason": "`normalize` and `suffix` on a setting field are additive keys the Windows Terminal host adopted first. Per the unknown-keys rule they are harmless to a host that has not, so this is a version skew rather than a disagreement."
+            },
+            {
+                "manifest": "stith.json",
+                "keys": [
+                    "html"
+                ],
+                "reason": "The html representation RUNS in Torbie and is compiled-but-disabled in Windows Terminal, which needs a feature flag and a WebView2 runtime it does not ship. The contract is identical; only whether it draws differs, and a host that ignores the key renders the fields list."
+            }
+        ]
+    }
+}

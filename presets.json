@@ -1,0 +1,166 @@
+{
+    "$schema": "./schema/presets-1.json",
+    "version": 1,
+    "_comment": [
+        "Ready-made rules, so adding one does not start with writing a regex.",
+        "",
+        "A preset is metadata plus a CRITERION, and the two come from different places on purpose.",
+        "The name and description are written here -- they are prose, and no manifest has anywhere",
+        "to put them. The PATTERN, for anything an integration already matches, is taken from that",
+        "integration's manifest rather than copied, because a second copy of a regex is a second",
+        "copy that can drift.",
+        "",
+        "The join is by EXAMPLE: a preset names a string its matcher must match, and the matcher is",
+        "selected by running the manifest's own patterns against it. That survives reordering and",
+        "rewording, needs nothing added to a manifest, and fails SAFE -- if no matcher claims the",
+        "example, or more than one does, the preset is not offered rather than shipping a pattern",
+        "nobody vouches for. The example doubles as what the conformance suite tests it against.",
+        "",
+        "Only the three subjects no manifest covers carry a pattern written here."
+    ],
+    "presets": [
+        {
+            "id": "jira-issue-keys",
+            "integration": "jira",
+            "label": "Issue keys in output",
+            "description": "Turns a bare issue key printed by a build or a commit message into a hoverable link",
+            "match": "text",
+            "example": "CAB-8209",
+            "preview": true,
+            "sample": "Deployed CAB-8209 to staging"
+        },
+        {
+            "id": "jira-issue-links",
+            "integration": "jira",
+            "label": "Issue links",
+            "description": "Jira issue URLs, the /browse/ form",
+            "match": "link",
+            "example": "https://example.atlassian.net/browse/CAB-8209",
+            "preview": true
+        },
+        {
+            "id": "github-pull-requests",
+            "integration": "github",
+            "label": "Pull request links",
+            "description": "GitHub pull request URLs",
+            "match": "link",
+            "example": "https://github.com/aylith-labs/lintel/pull/12",
+            "preview": true
+        },
+        {
+            "id": "github-issues",
+            "integration": "github",
+            "label": "Issue links",
+            "description": "GitHub issue URLs",
+            "match": "link",
+            "example": "https://github.com/aylith-labs/lintel/issues/12",
+            "preview": true
+        },
+        {
+            "id": "github-commits",
+            "integration": "github",
+            "label": "Commit links",
+            "description": "GitHub commit URLs",
+            "match": "link",
+            "example": "https://github.com/aylith-labs/lintel/commit/c79ccc1f0a7d4e2b1c3f5a6d8e9b0c1d2e3f4a5b",
+            "preview": true
+        },
+        {
+            "id": "github-repo-number",
+            "integration": "github",
+            "label": "Pull requests and issues as repo#number",
+            "description": "Matches repo#number in output and resolves it against the candidate owners",
+            "match": "text",
+            "example": "terminal#18920",
+            "preview": true,
+            "sample": "See terminal#18920 for the details"
+        },
+        {
+            "id": "slack-messages",
+            "integration": "slack",
+            "label": "Message links",
+            "description": "Slack permalinks, including a link into a thread",
+            "match": "link",
+            "example": "https://myteam.slack.com/archives/C01234ABCD/p1712345678000100",
+            "preview": true
+        },
+        {
+            "id": "stith-session-uris",
+            "integration": "stith",
+            "label": "Session links",
+            "description": "stith:// links to an agent session",
+            "match": "link",
+            "example": "stith://session/1a2b3c4d-5e6f",
+            "preview": true
+        },
+        {
+            "id": "stith-web-links",
+            "integration": "stith",
+            "label": "Web links",
+            "description": "Links to a session on the stith web UI",
+            "match": "link",
+            "example": "https://stith.lvh.me/agent/1a2b3c4d-5e6f",
+            "preview": true
+        },
+        {
+            "id": "stith-session-ids",
+            "integration": "stith",
+            "label": "Agent session ids in output",
+            "description": "A bare session id printed with no scheme and no link around it, which is how one usually appears",
+            "match": "text",
+            "example": "ce786f3f-6fdc-4165-b9bd-20ff858844db",
+            "preview": true,
+            "sample": "Resuming ce786f3f-6fdc-4165-b9bd-20ff858844db"
+        },
+        {
+            "id": "shefrd-pane-ids",
+            "integration": "shefrd",
+            "label": "Pane ids in output",
+            "description": "A multiplexer pane address like w1N:p39; opening one focuses that pane",
+            "match": "text",
+            "example": "w1N:p39",
+            "preview": true,
+            "sample": "it also names the pane, w1N:p39, if you want to watch it work"
+        },
+        {
+            "id": "git-commit-hashes",
+            "integration": "",
+            "label": "Git: Commit hashes in output",
+            "description": "Abbreviated or full hashes printed by git -- hoverable, and a place to hang a custom action",
+            "match": "text",
+            "pattern": "\\b(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\\b",
+            "patternNote": "The lookahead demands a letter somewhere in the run. Without it every seven-digit number in the output is a commit -- PIDs, ports, byte counts, epoch seconds -- and a rule that decorates everything is a rule people turn off. The cost is an all-digit hash, a one-in-a-billion object at forty characters.",
+            "example": "c79ccc1f0a7d4e2b1c3f5a6d8e9b0c1d2e3f4a5b",
+            "preview": false,
+            "sample": "46100068 Record what the Settings crash actually was"
+        },
+        {
+            "id": "media-files",
+            "integration": "",
+            "label": "Media: Images, audio and video",
+            "description": "Links and paths that resolve to a media file",
+            "match": "link",
+            "schemes": [
+                "file",
+                "http",
+                "https"
+            ],
+            "fileTypeGroup": "media",
+            "example": "/home/steve/captures/screenshot.png",
+            "preview": true
+        },
+        {
+            "id": "source-code-files",
+            "integration": "",
+            "label": "Source code files",
+            "description": "Local paths to a source file",
+            "match": "link",
+            "schemes": [
+                "file"
+            ],
+            "fileTypeGroup": "sourceCode",
+            "example": "/home/steve/projects/lintel/presets.json",
+            "preview": true
+        }
+    ]
+}
