@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JSON Schema — Lintel</title>
+<meta name="description" content="The published JSON Schema for a Lintel manifest, so an editor can validate one before a terminal ever sees it.">
+<meta property="og:title" content="JSON Schema — Lintel">
+<meta property="og:description" content="The published JSON Schema for a Lintel manifest, so an editor can validate one before a terminal ever sees it.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://lintel.aylith.com/schema/">
+<style>
+/* Light is the base. Every colour is a token defined here, so a theme block
+   below only ever redefines tokens -- never introduces one. */
+:root {
+  color-scheme: light;
+  --bg: #faf8f5;
+  --panel: #fffefc;
+  --ink: #1c1917;
+  --ink-soft: #57534e;
+  --ink-faint: #8b857f;
+  --rule: #e7e2db;
+  --accent: #7c4a2d;
+  --accent-soft: #f0e6dd;
+  --code-bg: #f4f0ea;
+  --ok: #2f6f4f;
+  --warn: #8a6d1f;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #171614;
+    --panel: #1f1e1b;
+    --ink: #ece7e0;
+    --ink-soft: #b3aca3;
+    --ink-faint: #857e75;
+    --rule: #322f2a;
+    --accent: #d9a273;
+    --accent-soft: #2b241d;
+    --code-bg: #232120;
+    --ok: #7fc0a0;
+    --warn: #d9bb6a;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #171614;
+  --panel: #1f1e1b;
+  --ink: #ece7e0;
+  --ink-soft: #b3aca3;
+  --ink-faint: #857e75;
+  --rule: #322f2a;
+  --accent: #d9a273;
+  --accent-soft: #2b241d;
+  --code-bg: #232120;
+  --ok: #7fc0a0;
+  --warn: #d9bb6a;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 47rem; margin: 0 auto; padding: 0 1.25rem 6rem; }
+
+header.site { border-bottom: 1px solid var(--rule); margin-bottom: 2.5rem; }
+header.site .wrap { padding-top: 1.5rem; padding-bottom: 0; }
+.brand { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+.brand a.name {
+  font: 600 1.35rem/1 ui-serif, Georgia, "Times New Roman", serif;
+  letter-spacing: .01em; color: var(--ink); text-decoration: none;
+}
+.brand .sub { color: var(--ink-faint); font-size: .9rem; }
+nav { display: flex; gap: .25rem 1.1rem; flex-wrap: wrap; margin: 1.15rem 0 0; padding-bottom: .35rem; }
+nav a {
+  color: var(--ink-soft); text-decoration: none; font-size: .9rem;
+  padding: .3rem 0 .55rem; border-bottom: 2px solid transparent;
+}
+nav a:hover { color: var(--ink); }
+nav a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+
+h1 { font: 600 2rem/1.2 ui-serif, Georgia, serif; margin: 0 0 1rem; letter-spacing: -.01em; }
+h2 { font: 600 1.3rem/1.3 ui-serif, Georgia, serif; margin: 2.5rem 0 .75rem; }
+h3 { font: 600 1.05rem/1.35 ui-sans-serif, system-ui, sans-serif; margin: 1.75rem 0 .5rem; }
+h2, h3 { scroll-margin-top: 1rem; }
+p, li { color: var(--ink-soft); }
+li { margin: .3rem 0; }
+strong { color: var(--ink); font-weight: 620; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+
+code {
+  font: .875em/1.5 ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+  background: var(--code-bg); padding: .1em .35em; border-radius: 4px;
+  color: var(--ink); overflow-wrap: anywhere;
+}
+pre {
+  background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px;
+  padding: .9rem 1rem; overflow-x: auto; margin: 1rem 0;
+}
+pre code { background: none; padding: 0; font-size: .82rem; line-height: 1.55; }
+
+/* Wide content scrolls inside its own box; the page never scrolls sideways. */
+.scroll { overflow-x: auto; margin: 1.15rem 0; border: 1px solid var(--rule); border-radius: 8px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: .55rem .8rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--ink); font-weight: 600; white-space: nowrap; background: var(--code-bg); }
+tr:last-child td { border-bottom: 0; }
+td code { white-space: nowrap; }
+
+blockquote { margin: 1.2rem 0; padding: .1rem 0 .1rem 1rem; border-left: 3px solid var(--accent-soft); color: var(--ink-faint); }
+
+.lede { font-size: 1.08rem; color: var(--ink-soft); }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; margin: 1.25rem 0; }
+.pill { display: inline-block; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase;
+        padding: .2rem .5rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.ok { color: var(--ok); } .warn { color: var(--warn); }
+.mono-sm { font: .8rem/1.5 ui-monospace, Menlo, Consolas, monospace; color: var(--ink-faint); }
+footer.site { border-top: 1px solid var(--rule); margin-top: 4rem; padding-top: 1.25rem; color: var(--ink-faint); font-size: .85rem; }
+footer.site a { color: var(--ink-faint); }
+
+@media (max-width: 34rem) {
+  h1 { font-size: 1.6rem; }
+  .wrap { padding: 0 1rem 4rem; }
+}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <div class="brand">
+    <a class="name" href="/">Lintel</a>
+    <span class="sub">One manifest, every terminal.</span>
+  </div>
+  <nav><a href="/">Overview</a><a href="/spec/">Spec</a><a href="/schemes/">Schemes</a><a href="/presets/">Presets</a><a href="/schema/" aria-current="page">Schema</a><a href="/conformance/">Conformance</a><a href="/hosts/">Hosts</a></nav>
+</div></header>
+<main class="wrap">
+
+<h1>JSON Schema</h1>
+<p class="lede">So an editor can complete and validate a manifest before a terminal ever sees it.</p>
+<p>Point your editor at <code>https://lintel.aylith.com/schema/lintel-1.json</code>, or add
+<code>"$schema"</code> to the manifest itself.</p>
+<div class="card">
+<p style="margin-top:0"><strong>Unknown keys are allowed, deliberately.</strong> The spec requires a
+host to ignore keys it does not recognise, so a schema that rejected them would contradict the
+versioning rule it exists to police. It catches the shapes that are wrong, not the ones that are
+merely new.</p>
+</div>
+<pre><code>{
+    &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+    &quot;$id&quot;: &quot;https://lintel.aylith.com/schema/lintel-1.json&quot;,
+    &quot;title&quot;: &quot;Lintel integration manifest, version 1&quot;,
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;required&quot;: [
+        &quot;id&quot;
+    ],
+    &quot;additionalProperties&quot;: true,
+    &quot;_comment&quot;: &quot;additionalProperties is true ON PURPOSE. The spec requires a host to ignore keys it does not know, so a schema that rejected them would contradict the versioning rule it is meant to police.&quot;,
+    &quot;properties&quot;: {
+        &quot;id&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;minLength&quot;: 1,
+            &quot;pattern&quot;: &quot;^[a-z0-9][a-z0-9-]*$&quot;
+        },
+        &quot;name&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;icon&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;version&quot;: {
+            &quot;type&quot;: &quot;integer&quot;,
+            &quot;minimum&quot;: 1
+        },
+        &quot;cacheSeconds&quot;: {
+            &quot;type&quot;: &quot;number&quot;
+        },
+        &quot;settings&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {
+                &quot;$ref&quot;: &quot;#/$defs/field&quot;
+            }
+        },
+        &quot;credentials&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {
+                &quot;$ref&quot;: &quot;#/$defs/field&quot;
+            }
+        },
+        &quot;matchers&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {
+                &quot;$ref&quot;: &quot;#/$defs/matcher&quot;
+            }
+        },
+        &quot;fetch&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {
+                &quot;$ref&quot;: &quot;#/$defs/step&quot;
+            }
+        },
+        &quot;fields&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {
+                &quot;$ref&quot;: &quot;#/$defs/display&quot;
+            }
+        },
+        &quot;fieldGroups&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;required&quot;: [
+                    &quot;key&quot;,
+                    &quot;fields&quot;
+                ],
+                &quot;properties&quot;: {
+                    &quot;key&quot;: {
+                        &quot;type&quot;: &quot;string&quot;
+                    },
+                    &quot;label&quot;: {
+                        &quot;type&quot;: &quot;string&quot;
+                    },
+                    &quot;fields&quot;: {
+                        &quot;type&quot;: &quot;array&quot;,
+                        &quot;items&quot;: {
+                            &quot;type&quot;: &quot;string&quot;
+                        }
+                    }
+                }
+            }
+        },
+        &quot;tabs&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;required&quot;: [
+                    &quot;key&quot;
+                ]
+            }
+        },
+        &quot;actions&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {
+                &quot;$ref&quot;: &quot;#/$defs/action&quot;
+            }
+        },
+        &quot;detectPatterns&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {
+                &quot;type&quot;: &quot;string&quot;,
+                &quot;format&quot;: &quot;regex&quot;
+            }
+        },
+        &quot;html&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+        }
+    },
+    &quot;$defs&quot;: {
+        &quot;field&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;required&quot;: [
+                &quot;key&quot;
+            ],
+            &quot;properties&quot;: {
+                &quot;key&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;label&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;placeholder&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;description&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;default&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;required&quot;: {
+                    &quot;type&quot;: &quot;boolean&quot;
+                },
+                &quot;secret&quot;: {
+                    &quot;type&quot;: &quot;boolean&quot;,
+                    &quot;description&quot;: &quot;Credentials only. Defaults true unless the key is email, user or username.&quot;
+                }
+            }
+        },
+        &quot;matcher&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;required&quot;: [
+                &quot;kind&quot;,
+                &quot;pattern&quot;
+            ],
+            &quot;properties&quot;: {
+                &quot;kind&quot;: {
+                    &quot;enum&quot;: [
+                        &quot;link&quot;,
+                        &quot;text&quot;
+                    ]
+                },
+                &quot;pattern&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;format&quot;: &quot;regex&quot;
+                },
+                &quot;hostSetting&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;Link matchers only. Names one of this manifest's settings; the URI's host must equal its current value or the matcher does not fire.&quot;
+                },
+                &quot;link&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;The URL this match stands for.&quot;
+                },
+                &quot;open&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;An actions key, or one of open/copyLink/copyPath/reveal/showInPane. What the CLICK does instead of following link.&quot;
+                },
+                &quot;suggested&quot;: {
+                    &quot;type&quot;: &quot;boolean&quot;
+                },
+                &quot;description&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                }
+            },
+            &quot;allOf&quot;: [
+                {
+                    &quot;_comment&quot;: &quot;A text matcher has no host to guard against.&quot;,
+                    &quot;if&quot;: {
+                        &quot;properties&quot;: {
+                            &quot;kind&quot;: {
+                                &quot;const&quot;: &quot;text&quot;
+                            }
+                        },
+                        &quot;required&quot;: [
+                            &quot;kind&quot;
+                        ]
+                    },
+                    &quot;then&quot;: {
+                        &quot;not&quot;: {
+                            &quot;required&quot;: [
+                                &quot;hostSetting&quot;
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        &quot;step&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;required&quot;: [
+                &quot;id&quot;
+            ],
+            &quot;properties&quot;: {
+                &quot;id&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;type&quot;: {
+                    &quot;enum&quot;: [
+                        &quot;http&quot;,
+                        &quot;command&quot;
+                    ],
+                    &quot;default&quot;: &quot;http&quot;
+                },
+                &quot;url&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;A template string; {{...}} substitutions are expanded.&quot;
+                },
+                &quot;method&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;body&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;A template string; {{...}} substitutions are expanded.&quot;
+                },
+                &quot;headers&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;additionalProperties&quot;: {
+                        &quot;type&quot;: &quot;string&quot;
+                    }
+                },
+                &quot;auth&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;required&quot;: [
+                        &quot;type&quot;
+                    ],
+                    &quot;properties&quot;: {
+                        &quot;type&quot;: {
+                            &quot;enum&quot;: [
+                                &quot;basic&quot;,
+                                &quot;bearer&quot;,
+                                &quot;header&quot;
+                            ]
+                        },
+                        &quot;user&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;A template string; {{...}} substitutions are expanded.&quot;
+                        },
+                        &quot;password&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;A template string; {{...}} substitutions are expanded.&quot;
+                        },
+                        &quot;value&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;A template string; {{...}} substitutions are expanded.&quot;
+                        },
+                        &quot;header&quot;: {
+                            &quot;type&quot;: &quot;string&quot;
+                        }
+                    }
+                },
+                &quot;commandLine&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;A template string; {{...}} substitutions are expanded.&quot;
+                },
+                &quot;stdin&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;A template string; {{...}} substitutions are expanded.&quot;
+                },
+                &quot;when&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;A template string; {{...}} substitutions are expanded.&quot;
+                },
+                &quot;unless&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;A template string; {{...}} substitutions are expanded.&quot;
+                },
+                &quot;optional&quot;: {
+                    &quot;type&quot;: &quot;boolean&quot;
+                },
+                &quot;timeoutMs&quot;: {
+                    &quot;type&quot;: &quot;number&quot;
+                },
+                &quot;allowUntrustedCertificate&quot;: {
+                    &quot;type&quot;: &quot;boolean&quot;
+                }
+            }
+        },
+        &quot;display&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;properties&quot;: {
+                &quot;key&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;label&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;path&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;An RFC 6901 pointer, optionally qualified by a step id. A negative index counts from the end.&quot;
+                },
+                &quot;kind&quot;: {
+                    &quot;enum&quot;: [
+                        &quot;text&quot;,
+                        &quot;title&quot;,
+                        &quot;subtitle&quot;,
+                        &quot;badge&quot;,
+                        &quot;link&quot;,
+                        &quot;image&quot;,
+                        &quot;multiline&quot;
+                    ]
+                },
+                &quot;iconPath&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;colorPath&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;color&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;format&quot;: {
+                    &quot;enum&quot;: [
+                        &quot;relativeTime&quot;,
+                        &quot;date&quot;
+                    ]
+                },
+                &quot;default&quot;: {
+                    &quot;type&quot;: &quot;boolean&quot;
+                }
+            }
+        },
+        &quot;action&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;required&quot;: [
+                &quot;key&quot;
+            ],
+            &quot;properties&quot;: {
+                &quot;key&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;label&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;kind&quot;: {
+                    &quot;enum&quot;: [
+                        &quot;button&quot;,
+                        &quot;choice&quot;
+                    ],
+                    &quot;default&quot;: &quot;button&quot;
+                },
+                &quot;optionsPath&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;optionIdPath&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;optionLabelPath&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;optionBadgePath&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;optionColorPath&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;optionTargetIdPath&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;optionFieldsPath&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;currentStatePath&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;method&quot;: {
+                    &quot;type&quot;: &quot;string&quot;
+                },
+                &quot;url&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;A template string; {{...}} substitutions are expanded.&quot;
+                },
+                &quot;body&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;A template string; {{...}} substitutions are expanded.&quot;
+                },
+                &quot;headers&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;additionalProperties&quot;: {
+                        &quot;type&quot;: &quot;string&quot;
+                    }
+                },
+                &quot;auth&quot;: {
+                    &quot;$ref&quot;: &quot;#/$defs/step/properties/auth&quot;
+                },
+                &quot;timeoutMs&quot;: {
+                    &quot;type&quot;: &quot;number&quot;
+                },
+                &quot;allowUntrustedCertificate&quot;: {
+                    &quot;type&quot;: &quot;boolean&quot;
+                }
+            }
+        }
+    }
+}
+</code></pre>
+
+</main>
+<footer class="site"><div class="wrap">
+  Built from the repo at
+  <a href="https://github.com/aylith-labs/lintel">aylith-labs/lintel</a> &mdash;
+  every page on this site is rendered from those files, so it cannot disagree with them.
+</div></footer>
+</body>
+</html>

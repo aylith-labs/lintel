@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Lintel standard, version 1</title>
+<meta name="description" content="The normative Lintel specification: manifests, matchers, fetch steps, templates, host guarding and conformance.">
+<meta property="og:title" content="The Lintel standard, version 1">
+<meta property="og:description" content="The normative Lintel specification: manifests, matchers, fetch steps, templates, host guarding and conformance.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://lintel.aylith.com/spec/">
+<style>
+/* Light is the base. Every colour is a token defined here, so a theme block
+   below only ever redefines tokens -- never introduces one. */
+:root {
+  color-scheme: light;
+  --bg: #faf8f5;
+  --panel: #fffefc;
+  --ink: #1c1917;
+  --ink-soft: #57534e;
+  --ink-faint: #8b857f;
+  --rule: #e7e2db;
+  --accent: #7c4a2d;
+  --accent-soft: #f0e6dd;
+  --code-bg: #f4f0ea;
+  --ok: #2f6f4f;
+  --warn: #8a6d1f;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #171614;
+    --panel: #1f1e1b;
+    --ink: #ece7e0;
+    --ink-soft: #b3aca3;
+    --ink-faint: #857e75;
+    --rule: #322f2a;
+    --accent: #d9a273;
+    --accent-soft: #2b241d;
+    --code-bg: #232120;
+    --ok: #7fc0a0;
+    --warn: #d9bb6a;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #171614;
+  --panel: #1f1e1b;
+  --ink: #ece7e0;
+  --ink-soft: #b3aca3;
+  --ink-faint: #857e75;
+  --rule: #322f2a;
+  --accent: #d9a273;
+  --accent-soft: #2b241d;
+  --code-bg: #232120;
+  --ok: #7fc0a0;
+  --warn: #d9bb6a;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 47rem; margin: 0 auto; padding: 0 1.25rem 6rem; }
+
+header.site { border-bottom: 1px solid var(--rule); margin-bottom: 2.5rem; }
+header.site .wrap { padding-top: 1.5rem; padding-bottom: 0; }
+.brand { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+.brand a.name {
+  font: 600 1.35rem/1 ui-serif, Georgia, "Times New Roman", serif;
+  letter-spacing: .01em; color: var(--ink); text-decoration: none;
+}
+.brand .sub { color: var(--ink-faint); font-size: .9rem; }
+nav { display: flex; gap: .25rem 1.1rem; flex-wrap: wrap; margin: 1.15rem 0 0; padding-bottom: .35rem; }
+nav a {
+  color: var(--ink-soft); text-decoration: none; font-size: .9rem;
+  padding: .3rem 0 .55rem; border-bottom: 2px solid transparent;
+}
+nav a:hover { color: var(--ink); }
+nav a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+
+h1 { font: 600 2rem/1.2 ui-serif, Georgia, serif; margin: 0 0 1rem; letter-spacing: -.01em; }
+h2 { font: 600 1.3rem/1.3 ui-serif, Georgia, serif; margin: 2.5rem 0 .75rem; }
+h3 { font: 600 1.05rem/1.35 ui-sans-serif, system-ui, sans-serif; margin: 1.75rem 0 .5rem; }
+h2, h3 { scroll-margin-top: 1rem; }
+p, li { color: var(--ink-soft); }
+li { margin: .3rem 0; }
+strong { color: var(--ink); font-weight: 620; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+
+code {
+  font: .875em/1.5 ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+  background: var(--code-bg); padding: .1em .35em; border-radius: 4px;
+  color: var(--ink); overflow-wrap: anywhere;
+}
+pre {
+  background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px;
+  padding: .9rem 1rem; overflow-x: auto; margin: 1rem 0;
+}
+pre code { background: none; padding: 0; font-size: .82rem; line-height: 1.55; }
+
+/* Wide content scrolls inside its own box; the page never scrolls sideways. */
+.scroll { overflow-x: auto; margin: 1.15rem 0; border: 1px solid var(--rule); border-radius: 8px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: .55rem .8rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--ink); font-weight: 600; white-space: nowrap; background: var(--code-bg); }
+tr:last-child td { border-bottom: 0; }
+td code { white-space: nowrap; }
+
+blockquote { margin: 1.2rem 0; padding: .1rem 0 .1rem 1rem; border-left: 3px solid var(--accent-soft); color: var(--ink-faint); }
+
+.lede { font-size: 1.08rem; color: var(--ink-soft); }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; margin: 1.25rem 0; }
+.pill { display: inline-block; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase;
+        padding: .2rem .5rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.ok { color: var(--ok); } .warn { color: var(--warn); }
+.mono-sm { font: .8rem/1.5 ui-monospace, Menlo, Consolas, monospace; color: var(--ink-faint); }
+footer.site { border-top: 1px solid var(--rule); margin-top: 4rem; padding-top: 1.25rem; color: var(--ink-faint); font-size: .85rem; }
+footer.site a { color: var(--ink-faint); }
+
+@media (max-width: 34rem) {
+  h1 { font-size: 1.6rem; }
+  .wrap { padding: 0 1rem 4rem; }
+}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <div class="brand">
+    <a class="name" href="/">Lintel</a>
+    <span class="sub">One manifest, every terminal.</span>
+  </div>
+  <nav><a href="/">Overview</a><a href="/spec/" aria-current="page">Spec</a><a href="/schemes/">Schemes</a><a href="/presets/">Presets</a><a href="/schema/">Schema</a><a href="/conformance/">Conformance</a><a href="/hosts/">Hosts</a></nav>
+</div></header>
+<main class="wrap">
+<h1>The Lintel standard</h1>
+<p><strong>Status: draft.</strong> Two hosts implement it and a third is adopting it. The conformance suite in this
+repo is what &quot;implements it&quot; means; where this document and that suite disagree, the suite is the
+bug report.</p>
+<p>A <strong>manifest</strong> is a JSON document that teaches a terminal to recognise a reference in its output,
+look it up, and show what it found. The terminal executes; the manifest only describes.</p>
+<hr>
+<h2>1. Conformance language</h2>
+<p><strong>MUST</strong>, <strong>MUST NOT</strong>, <strong>SHOULD</strong> and <strong>MAY</strong> are used as in RFC 2119.</p>
+<p>A <strong>host</strong> is a program that reads manifests — a terminal, a multiplexer, an editor.
+An <strong>author</strong> is whoever writes one.</p>
+<h2>2. Versioning</h2>
+<ul>
+<li>A manifest carries <code>&quot;version&quot;</code>, an integer. Version 1 is this document.</li>
+<li>A host <strong>MUST</strong> ignore keys it does not recognise, at every level.</li>
+<li>A host <strong>MUST</strong> refuse a manifest whose <code>version</code> names a major it does not implement, and
+<strong>MUST</strong> say so rather than partially loading it.</li>
+<li>A key added within a major version <strong>MUST</strong> be optional, and its absence <strong>MUST</strong> mean what the
+behaviour was before it existed.</li>
+</ul>
+<p>The rule exists so a manifest can be shared before every host has caught up. <code>normalize</code> on a
+setting field and <code>html</code> at the top level are both live examples: hosts that have never heard of
+them behave exactly as they did.</p>
+<h2>3. Discovery</h2>
+<p>A host <strong>MUST</strong> load manifests from a directory, one manifest per folder as <code>integration.json</code>, or
+as a bare <code>&lt;id&gt;.json</code> directly in that directory. Where that directory is, is the host&#39;s business.</p>
+<ul>
+<li>A host <strong>MAY</strong> ship built-in manifests.</li>
+<li>A user manifest whose <code>id</code> equals a built-in&#39;s <strong>MUST</strong> replace it outright. This is how a shipped
+manifest is forked, or handed to the project it describes.</li>
+<li>A manifest that fails to parse <strong>MUST</strong> be skipped and logged. It <strong>MUST NOT</strong> be fatal.</li>
+</ul>
+<p>A registry is the obvious next question and the obvious next mistake. A folder is specified; a
+registry can be a layer above one later.</p>
+<h2>4. The manifest</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>string, <strong>required</strong></td>
+<td>Unique. A manifest with no <code>id</code> is invalid.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Display name. Defaults to <code>id</code>.</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td>string</td>
+<td>A URI. Hosts resolve their own built-in names; a third-party manifest <strong>SHOULD</strong> use <code>https:</code>, <code>data:</code> or <code>file:</code>.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>integer</td>
+<td>See <a href="#2-versioning">§2</a>.</td>
+</tr>
+<tr>
+<td><code>cacheSeconds</code></td>
+<td>number</td>
+<td>How long a fetched result is cached per match. Negative clamps to 0.</td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td>array</td>
+<td>Non-secret configuration. Stored wherever the host stores settings.</td>
+</tr>
+<tr>
+<td><code>credentials</code></td>
+<td>array</td>
+<td>Secret configuration. <strong>MUST NOT</strong> be stored with settings.</td>
+</tr>
+<tr>
+<td><code>matchers</code></td>
+<td>array</td>
+<td>How this manifest claims a reference. See <a href="#5-matchers">§5</a>.</td>
+</tr>
+<tr>
+<td><code>fetch</code></td>
+<td>array</td>
+<td>The request pipeline. See <a href="#6-fetch-steps">§6</a>.</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td>array</td>
+<td>How a result renders.</td>
+</tr>
+<tr>
+<td><code>fieldGroups</code></td>
+<td>array</td>
+<td>Named sets of fields.</td>
+</tr>
+<tr>
+<td><code>tabs</code></td>
+<td>array</td>
+<td>Secondary content behind a tab strip.</td>
+</tr>
+<tr>
+<td><code>actions</code></td>
+<td>array</td>
+<td>Things the card can <em>do</em> to the thing. See <a href="#7-actions">§7</a>.</td>
+</tr>
+<tr>
+<td><code>detectPatterns</code></td>
+<td>array of regex</td>
+<td>Patterns the host scans plain output for while this manifest is enabled.</td>
+</tr>
+<tr>
+<td><code>html</code></td>
+<td>string</td>
+<td>A full HTML document rendered in place of <code>fields</code>. Optional; a host that does not render it <strong>MUST</strong> fall back to <code>fields</code>.</td>
+</tr>
+</tbody></table></div>
+<h2>5. Matchers</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>kind</code></td>
+<td><code>&quot;link&quot;</code> or <code>&quot;text&quot;</code></td>
+<td>Against a hovered URI, or scanned over terminal text.</td>
+</tr>
+<tr>
+<td><code>pattern</code></td>
+<td>regex</td>
+<td>Named groups become template variables.</td>
+</tr>
+<tr>
+<td><code>hostSetting</code></td>
+<td>string</td>
+<td><strong>Link matchers only.</strong> See <a href="#9-host-guarding">§9</a>.</td>
+</tr>
+<tr>
+<td><code>link</code></td>
+<td>template</td>
+<td>The URL this match stands for — Open, Copy link, and the click.</td>
+</tr>
+<tr>
+<td><code>open</code></td>
+<td>string</td>
+<td>What the <em>click</em> should do instead of following <code>link</code>. See below.</td>
+</tr>
+<tr>
+<td><code>suggested</code></td>
+<td>boolean</td>
+<td><strong>Text matchers only.</strong> Offered to the user as a ready-made rule.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>Shown beside a suggested matcher.</td>
+</tr>
+</tbody></table></div>
+<p><strong>Matching semantics.</strong> A host <strong>MUST</strong> apply a <code>text</code> matcher to the matched run as a whole — the
+run either is the reference or it is not. A host <strong>MUST</strong> search a <code>link</code> matcher within the URI. An
+author anchoring a text pattern is therefore writing something already implied.</p>
+<p><strong><code>open</code>.</strong> Some references are not usefully <em>opened</em>. A multiplexer pane id names a pane to bring
+to the front; a page describing that pane is a consolation prize. <code>open</code> names an <code>actions</code> entry of
+the same manifest, or a built-in button id, and the host runs it instead of following <code>link</code>.</p>
+<ul>
+<li>Copy link <strong>MUST</strong> still copy what <code>link</code> resolves to. <code>open</code> governs the click alone.</li>
+<li>If the action fails, the host <strong>SHOULD</strong> fall back to opening <code>link</code>. A click that reports nothing
+and does nothing is worse than one that lands somewhere less useful.</li>
+<li><code>open</code> naming neither an action nor a built-in is <strong>invalid</strong>, and the conformance suite rejects
+it. It would otherwise be a click that silently does nothing, which is the exact failure the key
+was added to remove.</li>
+</ul>
+<h2>6. Fetch steps</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Referenced by later steps, and by field paths as <code>stepId:pointer</code>.</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>&quot;http&quot;</code> (default) or <code>&quot;command&quot;</code></td>
+<td>A request, or a local process whose stdout is JSON.</td>
+</tr>
+<tr>
+<td><code>url</code>, <code>method</code>, <code>headers</code>, <code>body</code>, <code>auth</code></td>
+<td></td>
+<td><code>http</code> only. <code>auth</code> is <code>basic</code>, <code>bearer</code> or <code>header</code>.</td>
+</tr>
+<tr>
+<td><code>commandLine</code>, <code>stdin</code></td>
+<td>template</td>
+<td><code>command</code> only.</td>
+</tr>
+<tr>
+<td><code>timeoutMs</code></td>
+<td>number</td>
+<td>Defaults to 8000.</td>
+</tr>
+<tr>
+<td><code>when</code> / <code>unless</code></td>
+<td>template</td>
+<td>Run, or skip, when the template expands to something non-empty.</td>
+</tr>
+<tr>
+<td><code>optional</code></td>
+<td>boolean</td>
+<td>A failure is recorded and stepped over rather than ending the pipeline.</td>
+</tr>
+<tr>
+<td><code>allowUntrustedCertificate</code></td>
+<td>boolean</td>
+<td><code>http</code> only.</td>
+</tr>
+</tbody></table></div>
+<p>Two steps <strong>MAY</strong> share an <code>id</code>; the later one that actually runs replaces the earlier result. That
+is how <code>when</code>/<code>unless</code> express a branch without the field paths having to know which arm fired.</p>
+<h2>7. Actions</h2>
+<p><code>&quot;kind&quot;: &quot;button&quot;</code> fires one request. <code>&quot;kind&quot;: &quot;choice&quot;</code> offers options an earlier step produced and
+fires a request for the one picked, available to the template as <code>{{choice}}</code>.</p>
+<p>Actions are HTTP. A <code>command</code> action is deliberately absent: a fetch step runs a local process to
+<em>read</em>, under a pipeline the user triggered by hovering, and letting a manifest run one to <em>write</em>
+is a different risk that <a href="#10-capabilities-and-consent">§10</a> has not yet answered.</p>
+<h2>8. Templates and paths</h2>
+<p>Every templated string is expanded with mustache-style <code>{{…}}</code> substitutions:</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Template</th>
+<th>Expands to</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>{{match}}</code></td>
+<td>The whole matched text.</td>
+</tr>
+<tr>
+<td><code>{{name}}</code></td>
+<td>A named capture group.</td>
+</tr>
+<tr>
+<td><code>{{uri}}</code></td>
+<td>The hovered URI (link matchers).</td>
+</tr>
+<tr>
+<td><code>{{settings.key}}</code> / <code>{{credentials.key}}</code></td>
+<td>A configured value.</td>
+</tr>
+<tr>
+<td><code>{{stepId:/json/pointer}}</code></td>
+<td>A value from an earlier step&#39;s result.</td>
+</tr>
+<tr>
+<td><code>{{choice}}</code>, <code>{{field.key}}</code></td>
+<td>Actions only.</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li>An unknown name <strong>MUST</strong> expand to the empty string. Not to an error, and not to the literal. That
+is what makes <code>when</code>/<code>unless</code> work as presence tests.</li>
+<li>Only <em>data</em> values — capture groups and step results — are percent-encoded, and only inside a
+step&#39;s <code>url</code>. A setting that is a whole scheme and host <strong>MUST</strong> survive unescaped.</li>
+<li>Paths are RFC 6901 JSON pointers with one extension: a negative index counts from the end, so
+<code>/messages/-1/text</code> is the last message.</li>
+<li>With more than one fetch step, an unqualified pointer resolves against whichever step ran last and
+produced something — which is rarely the one meant. Authors <strong>SHOULD</strong> qualify, and the
+conformance suite requires it.</li>
+</ul>
+<h2>9. Host guarding</h2>
+<p>A link matcher <strong>MAY</strong> name one of its own settings as <code>hostSetting</code>. The hovered URI&#39;s host <strong>MUST</strong>
+equal that setting&#39;s <em>current</em> value or the matcher does not fire — no fetch, and no credential
+touched. This is the whole reason a look-alike link can never see a token: the fetch never starts,
+because the match never happened.</p>
+<p><code>hostSetting</code> is for a host the <em>user</em> supplies. Where the host is fixed, pin it in the pattern
+instead. It has no meaning on a text matcher — a ticket key has no host to check against — and
+carrying one there is invalid.</p>
+<p>Further, a host <strong>MUST NOT</strong> fetch unless every <code>required</code> setting and every credential has a value
+and the manifest is enabled; <strong>MUST NOT</strong> write credentials to the settings file; and <strong>MUST NOT</strong>
+let a credential value appear in an error message, a log, or a cached failure.</p>
+<h2>10. Capabilities and consent</h2>
+<p><strong>Unresolved, and the largest open question in version 1.</strong> A manifest can issue arbitrary HTTP and
+run arbitrary local commands. That is fine for a file you wrote and not fine for one you installed.</p>
+<p>Until this section says otherwise, a host <strong>SHOULD</strong> treat a user-installed manifest&#39;s <code>command</code>
+steps as opt-in, and <strong>SHOULD</strong> show the user what a manifest will reach before enabling it.</p>
+<h2>11. Conformance</h2>
+<p>An implementation is conformant if <code>conformance/run.mjs</code> passes against its manifest directory. The
+suite checks that every manifest is well formed, that every preset&#39;s example is claimed by exactly
+one matcher, and that each host ships what this repo says is canonical.</p>
+<p>Where a host cannot ship the canonical copy, the divergence goes in <code>conformance/allowances.json</code>
+with a reason <strong>about the host</strong>. &quot;Not synced yet&quot; is not a reason; it is the finding.</p>
+<h2>12. Still open</h2>
+<p>Named so they are not mistaken for settled: <a href="#10-capabilities-and-consent">§10</a> capabilities and
+consent; a redaction guarantee stronger than §9&#39;s prose; whether <code>html</code> earns a sandbox story or
+should be dropped in favour of richer field kinds; i18n, since <code>label</code> and <code>description</code> are single
+strings; and a rendering contract saying which <code>kind</code> values must render <em>distinctly</em> — currently
+agreed by imitation, which is exactly how two implementations drift.</p>
+
+</main>
+<footer class="site"><div class="wrap">
+  Built from the repo at
+  <a href="https://github.com/aylith-labs/lintel">aylith-labs/lintel</a> &mdash;
+  every page on this site is rendered from those files, so it cannot disagree with them.
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>URI registry — Lintel</title>
+<meta name="description" content="The schemes a Lintel manifest can own: stith:// and shefrd://, their verbs, and what a host does with one.">
+<meta property="og:title" content="URI registry — Lintel">
+<meta property="og:description" content="The schemes a Lintel manifest can own: stith:// and shefrd://, their verbs, and what a host does with one.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://lintel.aylith.com/schemes/">
+<style>
+/* Light is the base. Every colour is a token defined here, so a theme block
+   below only ever redefines tokens -- never introduces one. */
+:root {
+  color-scheme: light;
+  --bg: #faf8f5;
+  --panel: #fffefc;
+  --ink: #1c1917;
+  --ink-soft: #57534e;
+  --ink-faint: #8b857f;
+  --rule: #e7e2db;
+  --accent: #7c4a2d;
+  --accent-soft: #f0e6dd;
+  --code-bg: #f4f0ea;
+  --ok: #2f6f4f;
+  --warn: #8a6d1f;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #171614;
+    --panel: #1f1e1b;
+    --ink: #ece7e0;
+    --ink-soft: #b3aca3;
+    --ink-faint: #857e75;
+    --rule: #322f2a;
+    --accent: #d9a273;
+    --accent-soft: #2b241d;
+    --code-bg: #232120;
+    --ok: #7fc0a0;
+    --warn: #d9bb6a;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #171614;
+  --panel: #1f1e1b;
+  --ink: #ece7e0;
+  --ink-soft: #b3aca3;
+  --ink-faint: #857e75;
+  --rule: #322f2a;
+  --accent: #d9a273;
+  --accent-soft: #2b241d;
+  --code-bg: #232120;
+  --ok: #7fc0a0;
+  --warn: #d9bb6a;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 47rem; margin: 0 auto; padding: 0 1.25rem 6rem; }
+
+header.site { border-bottom: 1px solid var(--rule); margin-bottom: 2.5rem; }
+header.site .wrap { padding-top: 1.5rem; padding-bottom: 0; }
+.brand { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+.brand a.name {
+  font: 600 1.35rem/1 ui-serif, Georgia, "Times New Roman", serif;
+  letter-spacing: .01em; color: var(--ink); text-decoration: none;
+}
+.brand .sub { color: var(--ink-faint); font-size: .9rem; }
+nav { display: flex; gap: .25rem 1.1rem; flex-wrap: wrap; margin: 1.15rem 0 0; padding-bottom: .35rem; }
+nav a {
+  color: var(--ink-soft); text-decoration: none; font-size: .9rem;
+  padding: .3rem 0 .55rem; border-bottom: 2px solid transparent;
+}
+nav a:hover { color: var(--ink); }
+nav a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+
+h1 { font: 600 2rem/1.2 ui-serif, Georgia, serif; margin: 0 0 1rem; letter-spacing: -.01em; }
+h2 { font: 600 1.3rem/1.3 ui-serif, Georgia, serif; margin: 2.5rem 0 .75rem; }
+h3 { font: 600 1.05rem/1.35 ui-sans-serif, system-ui, sans-serif; margin: 1.75rem 0 .5rem; }
+h2, h3 { scroll-margin-top: 1rem; }
+p, li { color: var(--ink-soft); }
+li { margin: .3rem 0; }
+strong { color: var(--ink); font-weight: 620; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+
+code {
+  font: .875em/1.5 ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+  background: var(--code-bg); padding: .1em .35em; border-radius: 4px;
+  color: var(--ink); overflow-wrap: anywhere;
+}
+pre {
+  background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px;
+  padding: .9rem 1rem; overflow-x: auto; margin: 1rem 0;
+}
+pre code { background: none; padding: 0; font-size: .82rem; line-height: 1.55; }
+
+/* Wide content scrolls inside its own box; the page never scrolls sideways. */
+.scroll { overflow-x: auto; margin: 1.15rem 0; border: 1px solid var(--rule); border-radius: 8px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: .55rem .8rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--ink); font-weight: 600; white-space: nowrap; background: var(--code-bg); }
+tr:last-child td { border-bottom: 0; }
+td code { white-space: nowrap; }
+
+blockquote { margin: 1.2rem 0; padding: .1rem 0 .1rem 1rem; border-left: 3px solid var(--accent-soft); color: var(--ink-faint); }
+
+.lede { font-size: 1.08rem; color: var(--ink-soft); }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; margin: 1.25rem 0; }
+.pill { display: inline-block; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase;
+        padding: .2rem .5rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.ok { color: var(--ok); } .warn { color: var(--warn); }
+.mono-sm { font: .8rem/1.5 ui-monospace, Menlo, Consolas, monospace; color: var(--ink-faint); }
+footer.site { border-top: 1px solid var(--rule); margin-top: 4rem; padding-top: 1.25rem; color: var(--ink-faint); font-size: .85rem; }
+footer.site a { color: var(--ink-faint); }
+
+@media (max-width: 34rem) {
+  h1 { font-size: 1.6rem; }
+  .wrap { padding: 0 1rem 4rem; }
+}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <div class="brand">
+    <a class="name" href="/">Lintel</a>
+    <span class="sub">One manifest, every terminal.</span>
+  </div>
+  <nav><a href="/">Overview</a><a href="/spec/">Spec</a><a href="/schemes/" aria-current="page">Schemes</a><a href="/presets/">Presets</a><a href="/schema/">Schema</a><a href="/conformance/">Conformance</a><a href="/hosts/">Hosts</a></nav>
+</div></header>
+<main class="wrap">
+<h1>The URI registry</h1>
+<p>A manifest can own a scheme. This is the list of the ones that are taken, what each verb means, and
+what a host is expected to do with one.</p>
+<p>Registering a scheme here is cheap and refusing to is expensive: two tools that both decide to mean
+something by <code>agent://</code> is a problem no amount of local care fixes.</p>
+<h2>Why a host should not hand these to the OS</h2>
+<p>A custom scheme reaching <code>ShellExecute</code> (or <code>xdg-open</code>, or <code>open</code>) needs a registered protocol
+handler <strong>that implements the verb you used</strong>. Partial handlers are the common case and the worst
+one: on the machine this standard was written on, <code>stith://</code> was registered to a program that
+answered <code>session</code> and <code>copy</code> and silently dropped <code>focus</code>, <code>focus-pane</code> and <code>rule</code>. Those came back
+<code>SE_ERR_NOASSOC</code> and the terminal told the user their link was invalid, which was true of nothing.</p>
+<p>So a host resolves a scheme it owns <strong>itself</strong>, through the manifest:</p>
+<ul>
+<li>a matcher&#39;s <code>link</code> gives the http(s) form, for Open and Copy link;</li>
+<li>a matcher&#39;s <code>open</code> names an action, for the click.</li>
+</ul>
+<p>Neither consults the shell. A page still opens in a browser, because a browser is what <code>https:</code> is
+for.</p>
+<h2><code>stith://</code> — agent sessions</h2>
+<p>Owned by <a href="https://github.com/aylith-labs/stith">stith</a>. Session ids are <code>[A-Za-z0-9-]{8,64}</code>; pane
+ids are <code>[A-Za-z0-9:_-]{2,64}</code>; rule codes are 1–6 digits with no leading zero.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Verb</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>stith://session/&lt;id&gt;</code></td>
+<td>Open that session on the web.</td>
+</tr>
+<tr>
+<td><code>stith://focus/&lt;id&gt;</code></td>
+<td>Raise the terminal the session is <em>running</em> in. Falls back to <code>session</code>.</td>
+</tr>
+<tr>
+<td><code>stith://focus-pane/&lt;paneId&gt;</code></td>
+<td>Focus one multiplexer pane by its own id.</td>
+</tr>
+<tr>
+<td><code>stith://copy/&lt;id&gt;</code></td>
+<td>Put the id on the clipboard. Renders nothing.</td>
+</tr>
+<tr>
+<td><code>stith://rule/&lt;code&gt;</code></td>
+<td>Open agent rule <code>AR#&lt;code&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>stith://&lt;id&gt;</code></td>
+<td>Legacy bare form. Still parsed, no longer emitted.</td>
+</tr>
+</tbody></table></div>
+<p>Each verb is matched by its own anchored pattern, so a <code>focus</code> link is never read as a <code>session</code>
+one. An unknown verb is <strong>refused</strong>, not read as an id.</p>
+<h2><code>shefrd://</code> — multiplexer addresses</h2>
+<p>Owned by <a href="https://github.com/aylith-labs/shefrd">shefrd</a>. Ids are bijective base-32 over a
+Crockford-ish alphabet — <code>123456789ABCDEFGHJKMNPQRSTVWXYZ0</code>, with no <code>I</code>, <code>L</code>, <code>O</code> or <code>U</code>, and <code>0</code>
+as the last digit rather than the first.</p>
+<pre><code>space-id := &quot;w&quot; BASE32                 w1N
+tab-id   := space-id &quot;:t&quot; BASE32       w1N:t33
+pane-id  := space-id &quot;:p&quot; BASE32       w1N:p39
+</code></pre>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Verb</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>shefrd://pane/&lt;pane-id&gt;</code></td>
+<td>Focus that pane.</td>
+</tr>
+<tr>
+<td><code>shefrd://tab/&lt;tab-id&gt;</code></td>
+<td>Focus that tab.</td>
+</tr>
+<tr>
+<td><code>shefrd://space/&lt;space-id&gt;</code></td>
+<td>Focus that space.</td>
+</tr>
+</tbody></table></div>
+<p>Two properties of the id grammar that matter to anyone writing a pattern for it:</p>
+<ul>
+<li><strong><code>:</code> is not filesystem-safe.</strong> Anything deriving a filename from an id substitutes <code>_</code>.</li>
+<li><strong>A bare pane id is worth matching directly.</strong> <code>w1N:p39</code> appears in output far more often than
+<code>shefrd://pane/w1N:p39</code> does, and it is unambiguous enough to match on sight — which is why the
+shefrd manifest carries a text matcher for it and not only a link one.</li>
+</ul>
+<p>Routing goes through stith rather than through the multiplexer binary. stith already holds a socket
+to every server, so one HTTP call works from Windows, from WSL, and from inside a pane, and a host
+does not have to know which of <code>shefrd</code> or <code>herdr</code> is installed — on a machine where <code>herdr</code> is a
+symlink to <code>shefrd</code>, the name proves nothing anyway. (<code>HERDR_BIN_PATH</code> is the discriminator, if you
+ever do need to know.)</p>
+
+</main>
+<footer class="site"><div class="wrap">
+  Built from the repo at
+  <a href="https://github.com/aylith-labs/lintel">aylith-labs/lintel</a> &mdash;
+  every page on this site is rendered from those files, so it cannot disagree with them.
+</div></footer>
+</body>
+</html>

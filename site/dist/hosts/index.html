@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hosts — Lintel</title>
+<meta name="description" content="Which host implements what, and where each one is allowed to differ, generated from the conformance run.">
+<meta property="og:title" content="Hosts — Lintel">
+<meta property="og:description" content="Which host implements what, and where each one is allowed to differ, generated from the conformance run.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://lintel.aylith.com/hosts/">
+<style>
+/* Light is the base. Every colour is a token defined here, so a theme block
+   below only ever redefines tokens -- never introduces one. */
+:root {
+  color-scheme: light;
+  --bg: #faf8f5;
+  --panel: #fffefc;
+  --ink: #1c1917;
+  --ink-soft: #57534e;
+  --ink-faint: #8b857f;
+  --rule: #e7e2db;
+  --accent: #7c4a2d;
+  --accent-soft: #f0e6dd;
+  --code-bg: #f4f0ea;
+  --ok: #2f6f4f;
+  --warn: #8a6d1f;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #171614;
+    --panel: #1f1e1b;
+    --ink: #ece7e0;
+    --ink-soft: #b3aca3;
+    --ink-faint: #857e75;
+    --rule: #322f2a;
+    --accent: #d9a273;
+    --accent-soft: #2b241d;
+    --code-bg: #232120;
+    --ok: #7fc0a0;
+    --warn: #d9bb6a;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #171614;
+  --panel: #1f1e1b;
+  --ink: #ece7e0;
+  --ink-soft: #b3aca3;
+  --ink-faint: #857e75;
+  --rule: #322f2a;
+  --accent: #d9a273;
+  --accent-soft: #2b241d;
+  --code-bg: #232120;
+  --ok: #7fc0a0;
+  --warn: #d9bb6a;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 47rem; margin: 0 auto; padding: 0 1.25rem 6rem; }
+
+header.site { border-bottom: 1px solid var(--rule); margin-bottom: 2.5rem; }
+header.site .wrap { padding-top: 1.5rem; padding-bottom: 0; }
+.brand { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+.brand a.name {
+  font: 600 1.35rem/1 ui-serif, Georgia, "Times New Roman", serif;
+  letter-spacing: .01em; color: var(--ink); text-decoration: none;
+}
+.brand .sub { color: var(--ink-faint); font-size: .9rem; }
+nav { display: flex; gap: .25rem 1.1rem; flex-wrap: wrap; margin: 1.15rem 0 0; padding-bottom: .35rem; }
+nav a {
+  color: var(--ink-soft); text-decoration: none; font-size: .9rem;
+  padding: .3rem 0 .55rem; border-bottom: 2px solid transparent;
+}
+nav a:hover { color: var(--ink); }
+nav a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+
+h1 { font: 600 2rem/1.2 ui-serif, Georgia, serif; margin: 0 0 1rem; letter-spacing: -.01em; }
+h2 { font: 600 1.3rem/1.3 ui-serif, Georgia, serif; margin: 2.5rem 0 .75rem; }
+h3 { font: 600 1.05rem/1.35 ui-sans-serif, system-ui, sans-serif; margin: 1.75rem 0 .5rem; }
+h2, h3 { scroll-margin-top: 1rem; }
+p, li { color: var(--ink-soft); }
+li { margin: .3rem 0; }
+strong { color: var(--ink); font-weight: 620; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+
+code {
+  font: .875em/1.5 ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+  background: var(--code-bg); padding: .1em .35em; border-radius: 4px;
+  color: var(--ink); overflow-wrap: anywhere;
+}
+pre {
+  background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px;
+  padding: .9rem 1rem; overflow-x: auto; margin: 1rem 0;
+}
+pre code { background: none; padding: 0; font-size: .82rem; line-height: 1.55; }
+
+/* Wide content scrolls inside its own box; the page never scrolls sideways. */
+.scroll { overflow-x: auto; margin: 1.15rem 0; border: 1px solid var(--rule); border-radius: 8px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: .55rem .8rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--ink); font-weight: 600; white-space: nowrap; background: var(--code-bg); }
+tr:last-child td { border-bottom: 0; }
+td code { white-space: nowrap; }
+
+blockquote { margin: 1.2rem 0; padding: .1rem 0 .1rem 1rem; border-left: 3px solid var(--accent-soft); color: var(--ink-faint); }
+
+.lede { font-size: 1.08rem; color: var(--ink-soft); }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; margin: 1.25rem 0; }
+.pill { display: inline-block; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase;
+        padding: .2rem .5rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.ok { color: var(--ok); } .warn { color: var(--warn); }
+.mono-sm { font: .8rem/1.5 ui-monospace, Menlo, Consolas, monospace; color: var(--ink-faint); }
+footer.site { border-top: 1px solid var(--rule); margin-top: 4rem; padding-top: 1.25rem; color: var(--ink-faint); font-size: .85rem; }
+footer.site a { color: var(--ink-faint); }
+
+@media (max-width: 34rem) {
+  h1 { font-size: 1.6rem; }
+  .wrap { padding: 0 1rem 4rem; }
+}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <div class="brand">
+    <a class="name" href="/">Lintel</a>
+    <span class="sub">One manifest, every terminal.</span>
+  </div>
+  <nav><a href="/">Overview</a><a href="/spec/">Spec</a><a href="/schemes/">Schemes</a><a href="/presets/">Presets</a><a href="/schema/">Schema</a><a href="/conformance/">Conformance</a><a href="/hosts/" aria-current="page">Hosts</a></nav>
+</div></header>
+<main class="wrap">
+
+<h1>Hosts</h1>
+<p class="lede">Generated from the conformance run, not asserted here &mdash; so a divergence
+appears on this page the day it appears in the file.</p>
+
+<h2>Torbie</h2>
+<div class="card">
+<p style="margin-top:0"><strong>github.json</strong> may differ at
+<code>settings</code>, <code>matchers</code></p>
+<p style="margin-bottom:0">Owner-less references (repo#123) are resolved in host code -- a cached probe of the candidateOwners setting, falling back to `gh auth token`. Nothing in the format expresses that, so Torbie carries neither the setting nor the matcher it serves; without the probe every such preview would fetch repos//&lt;repo&gt;/issues/&lt;n&gt; and card a 404.</p>
+</div>
+<div class="card">
+<p style="margin-top:0"><strong>jira.json</strong> may differ at
+<code>settings</code></p>
+<p style="margin-bottom:0">`normalize` and `suffix` on a setting field are additive keys the Windows Terminal host adopted first. Per the unknown-keys rule they are harmless to a host that has not, so this is a version skew rather than a disagreement.</p>
+</div>
+<div class="card">
+<p style="margin-top:0"><strong>stith.json</strong> may differ at
+<code>html</code></p>
+<p style="margin-bottom:0">The html representation RUNS in Torbie and is compiled-but-disabled in Windows Terminal, which needs a feature flag and a WebView2 runtime it does not ship. The contract is identical; only whether it draws differs, and a host that ignores the key renders the fields list.</p>
+</div>
+<h2>Everything else</h2>
+<p>Anything not listed above must match the canonical manifest exactly, as a parsed value.
+&ldquo;Not synced yet&rdquo; is not an allowance; it is the finding.</p>
+
+</main>
+<footer class="site"><div class="wrap">
+  Built from the repo at
+  <a href="https://github.com/aylith-labs/lintel">aylith-labs/lintel</a> &mdash;
+  every page on this site is rendered from those files, so it cannot disagree with them.
+</div></footer>
+</body>
+</html>

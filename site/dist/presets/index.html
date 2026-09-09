@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presets — Lintel</title>
+<meta name="description" content="The preset catalogue: ready-made rules, each joined to the manifest matcher that claims its example.">
+<meta property="og:title" content="Presets — Lintel">
+<meta property="og:description" content="The preset catalogue: ready-made rules, each joined to the manifest matcher that claims its example.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://lintel.aylith.com/presets/">
+<style>
+/* Light is the base. Every colour is a token defined here, so a theme block
+   below only ever redefines tokens -- never introduces one. */
+:root {
+  color-scheme: light;
+  --bg: #faf8f5;
+  --panel: #fffefc;
+  --ink: #1c1917;
+  --ink-soft: #57534e;
+  --ink-faint: #8b857f;
+  --rule: #e7e2db;
+  --accent: #7c4a2d;
+  --accent-soft: #f0e6dd;
+  --code-bg: #f4f0ea;
+  --ok: #2f6f4f;
+  --warn: #8a6d1f;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #171614;
+    --panel: #1f1e1b;
+    --ink: #ece7e0;
+    --ink-soft: #b3aca3;
+    --ink-faint: #857e75;
+    --rule: #322f2a;
+    --accent: #d9a273;
+    --accent-soft: #2b241d;
+    --code-bg: #232120;
+    --ok: #7fc0a0;
+    --warn: #d9bb6a;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #171614;
+  --panel: #1f1e1b;
+  --ink: #ece7e0;
+  --ink-soft: #b3aca3;
+  --ink-faint: #857e75;
+  --rule: #322f2a;
+  --accent: #d9a273;
+  --accent-soft: #2b241d;
+  --code-bg: #232120;
+  --ok: #7fc0a0;
+  --warn: #d9bb6a;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 47rem; margin: 0 auto; padding: 0 1.25rem 6rem; }
+
+header.site { border-bottom: 1px solid var(--rule); margin-bottom: 2.5rem; }
+header.site .wrap { padding-top: 1.5rem; padding-bottom: 0; }
+.brand { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+.brand a.name {
+  font: 600 1.35rem/1 ui-serif, Georgia, "Times New Roman", serif;
+  letter-spacing: .01em; color: var(--ink); text-decoration: none;
+}
+.brand .sub { color: var(--ink-faint); font-size: .9rem; }
+nav { display: flex; gap: .25rem 1.1rem; flex-wrap: wrap; margin: 1.15rem 0 0; padding-bottom: .35rem; }
+nav a {
+  color: var(--ink-soft); text-decoration: none; font-size: .9rem;
+  padding: .3rem 0 .55rem; border-bottom: 2px solid transparent;
+}
+nav a:hover { color: var(--ink); }
+nav a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+
+h1 { font: 600 2rem/1.2 ui-serif, Georgia, serif; margin: 0 0 1rem; letter-spacing: -.01em; }
+h2 { font: 600 1.3rem/1.3 ui-serif, Georgia, serif; margin: 2.5rem 0 .75rem; }
+h3 { font: 600 1.05rem/1.35 ui-sans-serif, system-ui, sans-serif; margin: 1.75rem 0 .5rem; }
+h2, h3 { scroll-margin-top: 1rem; }
+p, li { color: var(--ink-soft); }
+li { margin: .3rem 0; }
+strong { color: var(--ink); font-weight: 620; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+
+code {
+  font: .875em/1.5 ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+  background: var(--code-bg); padding: .1em .35em; border-radius: 4px;
+  color: var(--ink); overflow-wrap: anywhere;
+}
+pre {
+  background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px;
+  padding: .9rem 1rem; overflow-x: auto; margin: 1rem 0;
+}
+pre code { background: none; padding: 0; font-size: .82rem; line-height: 1.55; }
+
+/* Wide content scrolls inside its own box; the page never scrolls sideways. */
+.scroll { overflow-x: auto; margin: 1.15rem 0; border: 1px solid var(--rule); border-radius: 8px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: .55rem .8rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--ink); font-weight: 600; white-space: nowrap; background: var(--code-bg); }
+tr:last-child td { border-bottom: 0; }
+td code { white-space: nowrap; }
+
+blockquote { margin: 1.2rem 0; padding: .1rem 0 .1rem 1rem; border-left: 3px solid var(--accent-soft); color: var(--ink-faint); }
+
+.lede { font-size: 1.08rem; color: var(--ink-soft); }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; margin: 1.25rem 0; }
+.pill { display: inline-block; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase;
+        padding: .2rem .5rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.ok { color: var(--ok); } .warn { color: var(--warn); }
+.mono-sm { font: .8rem/1.5 ui-monospace, Menlo, Consolas, monospace; color: var(--ink-faint); }
+footer.site { border-top: 1px solid var(--rule); margin-top: 4rem; padding-top: 1.25rem; color: var(--ink-faint); font-size: .85rem; }
+footer.site a { color: var(--ink-faint); }
+
+@media (max-width: 34rem) {
+  h1 { font-size: 1.6rem; }
+  .wrap { padding: 0 1rem 4rem; }
+}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <div class="brand">
+    <a class="name" href="/">Lintel</a>
+    <span class="sub">One manifest, every terminal.</span>
+  </div>
+  <nav><a href="/">Overview</a><a href="/spec/">Spec</a><a href="/schemes/">Schemes</a><a href="/presets/" aria-current="page">Presets</a><a href="/schema/">Schema</a><a href="/conformance/">Conformance</a><a href="/hosts/">Hosts</a></nav>
+</div></header>
+<main class="wrap">
+
+<h1>Presets</h1>
+<p class="lede">Ready-made rules, so adding one does not start with writing a regex.</p>
+<p>A preset is metadata plus a criterion, and the two come from different places on purpose. The
+name and description are prose, and no manifest has anywhere to put them. The <strong>pattern</strong>
+is <em>taken</em> from the manifest rather than copied beside it &mdash; a second copy of a regex is
+a second copy that can drift.</p>
+<p>The join is by <strong>example</strong>: a preset names a string its matcher must claim, and the
+matcher is selected by running the manifest's own patterns against it. If nothing claims the example,
+or more than one thing does, the preset is not offered rather than shipping a pattern nobody vouches
+for. Each entry below shows the pattern that join actually resolved.</p>
+<div class="card">
+<p style="margin:0"><strong>Issue keys in output</strong>
+  <span class="pill" style="margin-left:.4rem">text</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">jira-issue-keys &middot; jira</p>
+<p style="margin:0 0 .1rem">Turns a bare issue key printed by a build or a commit message into a hoverable link</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>CAB-8209</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>\b(?&lt;key&gt;[A-Z][A-Z0-9]{1,9}-\d{1,7})\b</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Issue links</strong>
+  <span class="pill" style="margin-left:.4rem">link</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">jira-issue-links &middot; jira</p>
+<p style="margin:0 0 .1rem">Jira issue URLs, the /browse/ form</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>https://example.atlassian.net/browse/CAB-8209</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>^https?://[^/]+/browse/(?&lt;key&gt;[A-Z][A-Z0-9]+-\d+)</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Pull request links</strong>
+  <span class="pill" style="margin-left:.4rem">link</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">github-pull-requests &middot; github</p>
+<p style="margin:0 0 .1rem">GitHub pull request URLs</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>https://github.com/aylith-labs/lintel/pull/12</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>^https://github\.com/(?&lt;owner&gt;[^/]+)/(?&lt;repo&gt;[^/]+)/(?&lt;ispull&gt;pull)/(?&lt;number&gt;\d+)</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Issue links</strong>
+  <span class="pill" style="margin-left:.4rem">link</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">github-issues &middot; github</p>
+<p style="margin:0 0 .1rem">GitHub issue URLs</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>https://github.com/aylith-labs/lintel/issues/12</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>^https://github\.com/(?&lt;owner&gt;[^/]+)/(?&lt;repo&gt;[^/]+)/(?&lt;isissue&gt;issues)/(?&lt;number&gt;\d+)</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Commit links</strong>
+  <span class="pill" style="margin-left:.4rem">link</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">github-commits &middot; github</p>
+<p style="margin:0 0 .1rem">GitHub commit URLs</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>https://github.com/aylith-labs/lintel/commit/c79ccc1f0a7d4e2b1c3f5a6d8e9b0c1d2e3f4a5b</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>^https://github\.com/(?&lt;owner&gt;[^/]+)/(?&lt;repo&gt;[^/]+)/commit/(?&lt;sha&gt;[0-9a-f]{7,40})</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Pull requests and issues as repo#number</strong>
+  <span class="pill" style="margin-left:.4rem">text</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">github-repo-number &middot; github</p>
+<p style="margin:0 0 .1rem">Matches repo#number in output and resolves it against the candidate owners</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>terminal#18920</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>^(?&lt;repo&gt;[A-Za-z0-9_.-]+)#(?&lt;number&gt;\d+)</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Message links</strong>
+  <span class="pill" style="margin-left:.4rem">link</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">slack-messages &middot; slack</p>
+<p style="margin:0 0 .1rem">Slack permalinks, including a link into a thread</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>https://myteam.slack.com/archives/C01234ABCD/p1712345678000100</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>^https://(?&lt;workspace&gt;[a-zA-Z0-9_.-]+)\.slack\.com/archives/(?&lt;channel&gt;[A-Z0-9]+)/p(?&lt;tsSeconds&gt;\d{10})(?&lt;tsMicros&gt;\d{6})(?:\?thread_ts=(?&lt;thread&gt;\d+\.\d+))?</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Session links</strong>
+  <span class="pill" style="margin-left:.4rem">link</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">stith-session-uris &middot; stith</p>
+<p style="margin:0 0 .1rem">stith:// links to an agent session</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>stith://session/1a2b3c4d-5e6f</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>^stith://session/(?&lt;id&gt;[A-Za-z0-9-]{4,64})</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Web links</strong>
+  <span class="pill" style="margin-left:.4rem">link</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">stith-web-links &middot; stith</p>
+<p style="margin:0 0 .1rem">Links to a session on the stith web UI</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>https://stith.lvh.me/agent/1a2b3c4d-5e6f</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>^https?://[^/]+/(?:s|agent|sessions|embed/s)/(?&lt;id&gt;[A-Za-z0-9-]{4,64})</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Agent session ids in output</strong>
+  <span class="pill" style="margin-left:.4rem">text</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">stith-session-ids &middot; stith</p>
+<p style="margin:0 0 .1rem">A bare session id printed with no scheme and no link around it, which is how one usually appears</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>ce786f3f-6fdc-4165-b9bd-20ff858844db</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>\b(?&lt;id&gt;[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\b</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Pane ids in output</strong>
+  <span class="pill" style="margin-left:.4rem">text</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">shefrd-pane-ids &middot; shefrd</p>
+<p style="margin:0 0 .1rem">A multiplexer pane address like w1N:p39; opening one focuses that pane</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>w1N:p39</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>\b(?&lt;pane&gt;w[123456789ABCDEFGHJKMNPQRSTVWXYZ0]+:p[123456789ABCDEFGHJKMNPQRSTVWXYZ0]+)\b</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Git: Commit hashes in output</strong>
+  <span class="pill" style="margin-left:.4rem">text</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">git-commit-hashes &middot; standalone</p>
+<p style="margin:0 0 .1rem">Abbreviated or full hashes printed by git -- hoverable, and a place to hang a custom action</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>c79ccc1f0a7d4e2b1c3f5a6d8e9b0c1d2e3f4a5b</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">with</p>
+<pre style="margin:.6rem 0 0"><code>\b(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\b</code></pre>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Media: Images, audio and video</strong>
+  <span class="pill" style="margin-left:.4rem">link</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">media-files &middot; standalone</p>
+<p style="margin:0 0 .1rem">Links and paths that resolve to a media file</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>/home/steve/captures/screenshot.png</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">by</p>
+<p class="mono-sm" style="margin:.6rem 0 0">matched by file type &mdash; media</p>
+</div>
+<div class="card">
+<p style="margin:0"><strong>Source code files</strong>
+  <span class="pill" style="margin-left:.4rem">link</span></p>
+<p class="mono-sm" style="margin:.15rem 0 .6rem">source-code-files &middot; standalone</p>
+<p style="margin:0 0 .1rem">Local paths to a source file</p>
+<p class="mono-sm" style="margin:.7rem 0 0">claims</p>
+<pre style="margin:.25rem 0 0"><code>/home/steve/projects/lintel/presets.json</code></pre>
+<p class="mono-sm" style="margin:.7rem 0 0">by</p>
+<p class="mono-sm" style="margin:.6rem 0 0">matched by file type &mdash; sourceCode</p>
+</div>
+
+</main>
+<footer class="site"><div class="wrap">
+  Built from the repo at
+  <a href="https://github.com/aylith-labs/lintel">aylith-labs/lintel</a> &mdash;
+  every page on this site is rendered from those files, so it cannot disagree with them.
+</div></footer>
+</body>
+</html>
