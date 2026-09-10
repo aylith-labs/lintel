@@ -176,3 +176,20 @@ consent; a redaction guarantee stronger than §9's prose; whether `html` earns a
 should be dropped in favour of richer field kinds; i18n, since `label` and `description` are single
 strings; and a rendering contract saying which `kind` values must render *distinctly* — currently
 agreed by imitation, which is exactly how two implementations drift.
+
+## Host file-preview capability
+
+`preview: true` permits a host to render a resolved local file without an integration.
+This is a host capability, not a remote integration fetch or a matching tooltip rule.
+A rule disabling preview or explicitly selecting an integration retains precedence.
+Hosts preserve original link identity separately from a filesystem target resolved in the
+originating terminal context (including its WSL distro). Unsupported content must retain
+ordinary link actions and report an unavailable preview without another integration's icon.
+
+Windows Terminal supports text, raster images, rendered PDF pages and extracted DOCX/XLSX/PPTX
+content. Torbie shares the preset catalog; this does not assert equivalent document rendering.
+Office macros, recalculation and external relationships are not part of a content preview.
+
+Preset extension criteria use `extensions`, without leading dots. They participate in rule
+identity alongside match kind, schemes and file-type group. The catalog is validated by
+`schema/presets-1.json`; integration criteria remain selected by exactly one example match.

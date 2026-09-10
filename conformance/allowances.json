@@ -12,14 +12,6 @@
     "hosts": {
         "Torbie": [
             {
-                "manifest": "github.json",
-                "keys": [
-                    "settings",
-                    "matchers"
-                ],
-                "reason": "Owner-less references (repo#123) are resolved in host code -- a cached probe of the candidateOwners setting, falling back to `gh auth token`. Nothing in the format expresses that, so Torbie carries neither the setting nor the matcher it serves; without the probe every such preview would fetch repos//<repo>/issues/<n> and card a 404."
-            },
-            {
                 "manifest": "jira.json",
                 "keys": [
                     "settings"

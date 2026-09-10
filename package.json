@@ -5,7 +5,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "test": "node conformance/run.mjs"
+    "test": "node conformance/run.mjs && node conformance/sync-presets.mjs --check && node conformance/presets.test.mjs",
+    "sync:presets": "node conformance/sync-presets.mjs"
   },
   "files": [
     "SPEC.md",

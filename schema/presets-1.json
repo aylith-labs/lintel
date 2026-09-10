@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lintel.aylith.com/schema/presets-1.json",
+  "type": "object",
+  "required": [
+    "version",
+    "presets"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "presets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "integration",
+          "label",
+          "description",
+          "match",
+          "example",
+          "preview"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "integration": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "example": {
+            "type": "string"
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "patternNote": {
+            "type": "string"
+          },
+          "sample": {
+            "type": "string"
+          },
+          "match": {
+            "enum": [
+              "link",
+              "text"
+            ]
+          },
+          "preview": {
+            "type": "boolean"
+          },
+          "fileTypeGroup": {
+            "enum": [
+              "none",
+              "image",
+              "video",
+              "audio",
+              "media",
+              "sourceCode",
+              "document",
+              "archive",
+              "executable"
+            ]
+          },
+          "extensions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "schemes": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

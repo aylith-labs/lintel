@@ -159,7 +159,66 @@
                 "file"
             ],
             "fileTypeGroup": "sourceCode",
-            "example": "/home/steve/projects/lintel/presets.json",
+            "example": "/home/steve/projects/lintel/example.ts",
+            "preview": true
+        },
+        {
+            "id": "text-files",
+            "integration": "",
+            "label": "Text files",
+            "description": "Local text, Markdown, log and configuration files",
+            "match": "link",
+            "schemes": [
+                "file"
+            ],
+            "fileTypeGroup": "none",
+            "extensions": [
+                "txt",
+                "md",
+                "log",
+                "json",
+                "yaml",
+                "yml",
+                "toml",
+                "ini",
+                "csv",
+                "tsv"
+            ],
+            "example": "/home/steve/notes.md",
+            "preview": true
+        },
+        {
+            "id": "pdf-files",
+            "integration": "",
+            "label": "PDF files",
+            "description": "Local PDF documents",
+            "match": "link",
+            "schemes": [
+                "file"
+            ],
+            "fileTypeGroup": "none",
+            "extensions": [
+                "pdf"
+            ],
+            "example": "/home/steve/report.pdf",
+            "preview": true
+        },
+        {
+            "id": "office-document-files",
+            "integration": "",
+            "label": "Office documents",
+            "description": "Local Word, Excel and PowerPoint content",
+            "match": "link",
+            "schemes": [
+                "file"
+            ],
+            "fileTypeGroup": "none",
+            "extensions": [
+                "docx",
+                "xlsx",
+                "pptx"
+            ],
+            "example": "/home/steve/report.docx",
             "preview": true
         }
     ]

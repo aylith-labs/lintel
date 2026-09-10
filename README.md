@@ -60,3 +60,16 @@ the host, is a decision. One that is not is drift, and the suite fails on it.
 Because "integration manifest" is a description, and a description cannot be cited, versioned or
 refused. A lintel is the beam over an opening: it is what lets you put a door in a wall without the
 wall coming down, and it is the piece nobody looks at once it is in.
+
+## Synchronizing preset consumers
+
+`presets.json` owns the ordered catalog. Generate both consumers together:
+
+```sh
+node conformance/sync-presets.mjs --terminal /path/to/terminal --torbie /path/to/torbie
+node conformance/sync-presets.mjs --check --terminal /path/to/terminal --torbie /path/to/torbie
+```
+
+The command validates IDs, examples and unique integration matches before writing.
+Commit the resulting C++ header and TypeScript catalog; host builds are offline.
+File presets include text, PDF and Office documents. See SPEC.md for capability semantics.

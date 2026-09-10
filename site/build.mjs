@@ -337,7 +337,9 @@ ${presets
 		const pattern = claimingPattern(p);
 		const criterion = pattern
 			? `<pre style="margin:.6rem 0 0"><code>${esc(pattern)}</code></pre>`
-			: p.fileTypeGroup
+			: p.extensions?.length
+                ? `<p class="mono-sm">matched by extension &mdash; ${esc(p.extensions.join(", "))}</p>`
+            : p.fileTypeGroup
 				// These two match by what a link RESOLVES TO rather than by what it
 				// looks like, so there is no pattern to show and none missing.
 				? `<p class="mono-sm" style="margin:.6rem 0 0">matched by file type &mdash; ${esc(p.fileTypeGroup)}</p>`
@@ -384,6 +386,7 @@ merely new.</p>
 );
 mkdirSync(join(OUT, "schema"), { recursive: true });
 writeFileSync(join(OUT, "schema", "lintel-1.json"), schema);
+writeFileSync(join(OUT, "schema", "presets-1.json"), read("schema/presets-1.json"));
 
 // -- /conformance and /hosts -------------------------------------------------
 

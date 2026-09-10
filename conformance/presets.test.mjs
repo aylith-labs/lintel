@@ -1,0 +1,41 @@
+import assert from 'node:assert/strict';
+import { mkdtempSync, mkdirSync, cpSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const temp = mkdtempSync(join(tmpdir(), 'lintel-presets-'));
+try {
+    mkdirSync(join(temp, 'conformance'));
+    cpSync(join(root, 'conformance/sync-presets.mjs'), join(temp, 'conformance/sync-presets.mjs'));
+    cpSync(join(root, 'integrations'), join(temp, 'integrations'), {recursive:true});
+    const original = JSON.parse(readFileSync(join(root, 'presets.json'), 'utf8'));
+    const save = value => writeFileSync(join(temp, 'presets.json'), JSON.stringify(value));
+    const terminal = join(temp, 'terminal');
+    const torbie = join(temp, 'torbie');
+    mkdirSync(join(terminal, 'src/cascadia/TerminalSettingsEditor'), {recursive:true});
+    mkdirSync(join(torbie, 'tabby-links/src'), {recursive:true});
+    const run = (...flags) => spawnSync(process.execPath, [join(temp, 'conformance/sync-presets.mjs'), '--terminal', terminal, '--torbie', torbie, ...flags], {encoding:'utf8'});
+    save(original);
+    assert.equal(run().status, 0);
+    assert.equal(run('--check').status, 0);
+    writeFileSync(join(terminal, 'src/cascadia/TerminalSettingsEditor/LinkTooltipPresets.g.h'), 'drift');
+    assert.notEqual(run('--check').status, 0, 'stale generated header must fail');
+    const duplicate = structuredClone(original);
+    duplicate.presets.push(duplicate.presets[0]);
+    save(duplicate);
+    assert.notEqual(run().status, 0, 'duplicate IDs must fail');
+    const unmatched = structuredClone(original);
+    unmatched.presets[0].example = 'not-an-issue';
+    save(unmatched);
+    assert.notEqual(run().status, 0, 'unmatched integration example must fail');
+    const extensions = structuredClone(original);
+    extensions.presets.find(p => p.id === 'pdf-files').example = '/tmp/wrong.docx';
+    save(extensions);
+    assert.notEqual(run().status, 0, 'extension mismatch must fail');
+    console.log('Preset generation, parity checks, and invalid-catalog regression tests passed.');
+} finally {
+    assert.ok(resolve(temp).startsWith(resolve(tmpdir()) + (process.platform === 'win32' ? '\\' : '/')));
+    rmSync(temp, {recursive:true,force:true});
+}
