@@ -18,4 +18,4 @@ jobs:
       # The host checks are skipped on a runner -- no terminal is checked out
       # there -- so this gate covers the manifests and the preset joins. The
       # host sync is checked on the machine that has the hosts.
-      - run: node conformance/run.mjs
+      - run: npm test
