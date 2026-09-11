@@ -105,6 +105,21 @@
         },
         "html": {
             "type": "string"
+        },
+        "account": {
+            "type": "object",
+            "properties": {
+                "provider": {
+                    "enum": [
+                        "github",
+                        "jira",
+                        "slack"
+                    ]
+                }
+            },
+            "required": [
+                "provider"
+            ]
         }
     },
     "$defs": {
@@ -135,6 +150,12 @@
                 "secret": {
                     "type": "boolean",
                     "description": "Credentials only. Defaults true unless the key is email, user or username."
+                },
+                "editor": {
+                    "enum": [
+                        "text",
+                        "github-owners"
+                    ]
                 }
             }
         },
@@ -312,7 +333,11 @@
                     ]
                 },
                 "placement": {
-                    "enum": ["details", "header", "status"],
+                    "enum": [
+                        "details",
+                        "header",
+                        "status"
+                    ],
                     "description": "Header fields remain visible across tabs; status is the header row next to state-changing actions."
                 },
                 "link": {

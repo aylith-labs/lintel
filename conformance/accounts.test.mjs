@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+const read = name => JSON.parse(readFileSync(new URL('../integrations/' + name + '.json', import.meta.url)));
+for (const provider of ['github','jira','slack']) assert.equal(read(provider).account.provider,provider);
+const github = read('github');
+assert.equal(github.settings.find(x => x.key === 'candidateOwners').editor,'github-owners');
+const matcher = github.matchers.find(x=>x.kind==='text');
+const pattern = new RegExp(matcher.pattern,'g');
+assert.deepEqual([...('See terminal#18920 and repo#2 for details').matchAll(pattern)].map(x=>x[0]),['terminal#18920','repo#2']);
+assert.equal(new RegExp(matcher.pattern).test('owner/repo#2'),false);
+assert.equal(new RegExp(matcher.pattern).test('repo#2letters'),false);
+assert.equal(matcher.description.startsWith('GitHub:'),false);
+console.log('Account capabilities and GitHub reference examples passed.');

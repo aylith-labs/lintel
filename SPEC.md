@@ -206,3 +206,37 @@ URLs, including percent-encoding JSON pointer values. It makes the displayed
 value clickable without exposing the raw URL as the label. Jira uses this for
 parent issues and searches by issue type or priority. Empty field values are
 omitted, including parent links for issues with no parent.
+
+## Account checks and preferred GitHub organizations
+
+An optional `account: { "provider": "github" | "jira" | "slack" }` declares
+which read-only account adapter a host can offer in integration settings. An
+unsupported provider must be reported as unavailable, never as connected.
+Disabled integrations must not be contacted. A host displays verified account
+name, login and avatar when available, plus a refresh control and explicit
+connection failures. Credentials and raw failure response bodies never enter
+that view.
+
+GitHub uses `gh auth token --hostname github.com` first, then the saved PAT,
+for both identity checks and reference resolution. The CLI is launched without
+a console window. `/user` verifies identity. Organization discovery uses
+`/user/orgs` and organization owners from `/user/repos`, because fine-grained
+PATs may return no memberships. Both lists are paginated, with a current host
+limit of three pages of 100 entries per list. Partial discovery is labelled;
+manual additions remain available.
+
+The `github-owners` setting editor presents `candidateOwners` as editable,
+reorderable rows with add/remove controls and a menu of discovered organizations.
+The stored representation remains a comma-separated string for compatibility.
+Names are validated as GitHub account identifiers and deduplicated without case
+sensitivity. The first accessible issue under the preferred organizations wins.
+Reference lookup is bounded to eight seconds; there is no repo-only cache that
+can survive a change in issue number or organization order.
+
+The shipped repo#number expression matches within prose. Hosts migrate only
+its exact old expression with a known shipped name, preserving custom rules.
+
+Account API references: [GitHub organizations](https://docs.github.com/en/rest/orgs/orgs),
+[Jira current user](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-myself/),
+[Slack auth.test](https://docs.slack.dev/reference/methods/auth.test/) and
+[Slack users.info](https://docs.slack.dev/reference/methods/users.info/).

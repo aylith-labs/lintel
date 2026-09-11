@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "test": "node conformance/run.mjs && node conformance/sync-presets.mjs --check && node conformance/presets.test.mjs && node conformance/sync-file-types.mjs --check && node conformance/contributions.test.mjs && node conformance/paths.test.mjs",
+    "test": "node conformance/run.mjs && node conformance/sync-presets.mjs --check && node conformance/presets.test.mjs && node conformance/sync-file-types.mjs --check && node conformance/contributions.test.mjs && node conformance/paths.test.mjs && node conformance/accounts.test.mjs",
     "sync:presets": "node conformance/sync-presets.mjs",
     "sync:file-types": "node conformance/sync-file-types.mjs",
     "preset:add": "node conformance/add-preset.mjs",
