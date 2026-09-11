@@ -14,7 +14,7 @@
  * HTML. One dependency, for markdown.
  */
 
-import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from "node:fs";
+import { readFileSync, readdirSync, writeFileSync, mkdirSync, cpSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
@@ -298,7 +298,8 @@ write(
 
 const { presets } = readJson("presets.json");
 const manifests = new Map(
-	["github", "jira", "slack", "stith", "shefrd"].map((id) => [id, readJson(`integrations/${id}.json`)]),
+	readdirSync(join(ROOT, "integrations")).filter(file => file.endsWith(".json")).sort()
+		.map(file => { const manifest = readJson(`integrations/${file}`); return [manifest.id, manifest]; }),
 );
 
 const claimingPattern = (preset) => {
