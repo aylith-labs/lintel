@@ -1,0 +1,79 @@
+[
+  {
+    "text": "Z:\\home\\stevenp\\screenshots\\x.png",
+    "windows": true,
+    "source": "Ubuntu",
+    "distros": [
+      "Debian"
+    ],
+    "paths": [
+      "Z:\\home\\stevenp\\screenshots\\x.png"
+    ]
+  },
+  {
+    "text": "/tmp/shefrd-e05e0c5b-handoff.md",
+    "windows": true,
+    "source": "Ubuntu",
+    "distros": [
+      "Debian"
+    ],
+    "paths": [
+      "\\\\wsl.localhost\\Ubuntu\\tmp\\shefrd-e05e0c5b-handoff.md"
+    ]
+  },
+  {
+    "text": "/tmp/handoff.md",
+    "windows": true,
+    "source": null,
+    "distros": [
+      "Ubuntu",
+      "Debian",
+      "Ubuntu"
+    ],
+    "paths": [
+      "\\\\wsl.localhost\\Ubuntu\\tmp\\handoff.md",
+      "\\\\wsl.localhost\\Debian\\tmp\\handoff.md"
+    ]
+  },
+  {
+    "text": "/mnt/c/Users/steve/file.md",
+    "windows": true,
+    "source": "Ubuntu",
+    "distros": [],
+    "paths": [
+      "C:\\Users\\steve\\file.md"
+    ]
+  },
+  {
+    "text": "/tmp/a%23b#c.md",
+    "windows": false,
+    "source": null,
+    "distros": [],
+    "paths": [
+      "/tmp/a%23b#c.md"
+    ]
+  },
+  {
+    "text": "\\\\wsl.localhost\\Debian\\etc\\hosts",
+    "windows": true,
+    "source": "Ubuntu",
+    "distros": [],
+    "paths": [
+      "\\\\wsl.localhost\\Debian\\etc\\hosts"
+    ]
+  },
+  {
+    "text": "/tmp/unknown.md",
+    "windows": true,
+    "source": null,
+    "distros": [],
+    "paths": []
+  },
+  {
+    "text": "CAB-8319",
+    "windows": true,
+    "source": "Ubuntu",
+    "distros": [],
+    "paths": []
+  }
+]

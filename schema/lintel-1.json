@@ -311,6 +311,14 @@
                         "multiline"
                     ]
                 },
+                "placement": {
+                    "enum": ["details", "header", "status"],
+                    "description": "Header fields remain visible across tabs; status is the header row next to state-changing actions."
+                },
+                "link": {
+                    "type": "string",
+                    "description": "URL template for this field. JSON pointer values are URL encoded."
+                },
                 "iconPath": {
                     "type": "string"
                 },

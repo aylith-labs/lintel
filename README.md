@@ -39,6 +39,7 @@ That is the whole idea. `CAB-8209` in a build log is now hoverable, and the card
 | [`schema/lintel-1.json`](schema/lintel-1.json) | JSON Schema, for an editor to validate against. |
 | [`schemes.md`](schemes.md) | The URI registry — `stith://`, `shefrd://`, and what a host does with one. |
 | [`presets.json`](presets.json) | The preset catalogue: ready-made rules, so adding one does not start with writing a regex. |
+| [`paths/`](paths/README.md) | Shared absolute path detection and Windows/WSL resolution policy in C++ and TypeScript. |
 | [`file-types.json`](file-types.json) | Shared language names, extensions, filenames, icons, file groups and platform reveal labels. |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Propose a preset or add one with `npm run preset:add`; no terminal build required. |
 | [`integrations/`](integrations/) | The canonical manifests. Hosts sync from here. |

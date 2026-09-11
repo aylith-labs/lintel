@@ -193,3 +193,16 @@ Office macros, recalculation and external relationships are not part of a conten
 Preset extension criteria use `extensions`, without leading dots. They participate in rule
 identity alongside match kind, schemes and file-type group. The catalog is validated by
 `schema/presets-1.json`; integration criteria remain selected by exactly one example match.
+
+### Header fields and field links
+
+A display field may declare `placement: "header"` or `placement: "status"`.
+Hosts keep these fields visible above the tabs, following the title. Status
+appears beside the integration's state-changing action controls. The default
+placement is `details`. Title fields belong below the source link above tabs.
+
+The optional `link` is a URL template using the same substitutions as fetch
+URLs, including percent-encoding JSON pointer values. It makes the displayed
+value clickable without exposing the raw URL as the label. Jira uses this for
+parent issues and searches by issue type or priority. Empty field values are
+omitted, including parent links for issues with no parent.
