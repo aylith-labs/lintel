@@ -5,8 +5,10 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "test": "node conformance/run.mjs && node conformance/sync-presets.mjs --check && node conformance/presets.test.mjs",
-    "sync:presets": "node conformance/sync-presets.mjs"
+    "test": "node conformance/run.mjs && node conformance/sync-presets.mjs --check && node conformance/presets.test.mjs && node conformance/sync-file-types.mjs --check && node conformance/contributions.test.mjs",
+    "sync:presets": "node conformance/sync-presets.mjs",
+    "sync:file-types": "node conformance/sync-file-types.mjs",
+    "preset:add": "node conformance/add-preset.mjs"
   },
   "files": [
     "SPEC.md",
@@ -14,6 +16,9 @@
     "schema",
     "presets.json",
     "integrations",
-    "conformance"
+    "conformance",
+    "file-types.json",
+    "icons",
+    "CONTRIBUTING.md"
   ]
 }

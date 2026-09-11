@@ -39,6 +39,8 @@ That is the whole idea. `CAB-8209` in a build log is now hoverable, and the card
 | [`schema/lintel-1.json`](schema/lintel-1.json) | JSON Schema, for an editor to validate against. |
 | [`schemes.md`](schemes.md) | The URI registry — `stith://`, `shefrd://`, and what a host does with one. |
 | [`presets.json`](presets.json) | The preset catalogue: ready-made rules, so adding one does not start with writing a regex. |
+| [`file-types.json`](file-types.json) | Shared language names, extensions, filenames, icons, file groups and platform reveal labels. |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Propose a preset or add one with `npm run preset:add`; no terminal build required. |
 | [`integrations/`](integrations/) | The canonical manifests. Hosts sync from here. |
 | [`conformance/`](conformance/) | `node conformance/run.mjs`. What "conformant" means, executably. |
 
@@ -73,3 +75,11 @@ node conformance/sync-presets.mjs --check --terminal /path/to/terminal --torbie 
 The command validates IDs, examples and unique integration matches before writing.
 Commit the resulting C++ header and TypeScript catalog; host builds are offline.
 File presets include text, PDF and Office documents. See SPEC.md for capability semantics.
+
+The catalog also includes Unblocked Code task IDs (`UNB-123`) and details URLs. Both hosts
+offer preset search and allow an existing rule to be duplicated and customized.
+
+Synchronize language metadata and its reusable SVG/PNG icons with
+`node conformance/sync-file-types.mjs --terminal /path/to/terminal --torbie /path/to/torbie`.
+Pass `--check` to verify consumers. Native hosts use the PNG assets; web hosts can use
+the SVGs directly or the generated TypeScript catalog, which embeds them as data URLs.

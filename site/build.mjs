@@ -323,6 +323,11 @@ write(
 		description: "The preset catalogue: ready-made rules, each joined to the manifest matcher that claims its example.",
 		body: `
 <h1>Presets</h1>
+<p><a href="https://github.com/aylith-labs/lintel/issues/new?template=preset.yml">Suggest a preset</a> · <a href="https://github.com/aylith-labs/lintel/blob/main/CONTRIBUTING.md">Contribute one yourself</a></p>
+<label for="preset-search">Search presets</label>
+<input id="preset-search" type="search" placeholder="Search names, services, descriptions or examples" style="display:block;width:100%;box-sizing:border-box;padding:.8rem;margin:.5rem 0 1rem;background:var(--panel);color:var(--ink);border:1px solid var(--rule);border-radius:6px">
+<p id="preset-empty" hidden>No presets match your search.</p>
+<script>document.addEventListener('DOMContentLoaded',()=>{const input=document.getElementById('preset-search');input.addEventListener('input',()=>{const query=input.value.trim().toLowerCase();let count=0;document.querySelectorAll('[data-preset]').forEach(card=>{card.hidden=!card.textContent.toLowerCase().includes(query);if(!card.hidden)count++;});document.getElementById('preset-empty').hidden=count!==0;});});</script>
 <p class="lede">Ready-made rules, so adding one does not start with writing a regex.</p>
 <p>A preset is metadata plus a criterion, and the two come from different places on purpose. The
 name and description are prose, and no manifest has anywhere to put them. The <strong>pattern</strong>
@@ -344,7 +349,7 @@ ${presets
 				// looks like, so there is no pattern to show and none missing.
 				? `<p class="mono-sm" style="margin:.6rem 0 0">matched by file type &mdash; ${esc(p.fileTypeGroup)}</p>`
 				: `<p class="warn" style="margin:.6rem 0 0">nothing claims this example</p>`;
-		return `<div class="card">
+		return `<div class="card" data-preset>
 <p style="margin:0"><strong>${esc(p.label)}</strong>
   <span class="pill" style="margin-left:.4rem">${esc(p.match)}</span></p>
 <p class="mono-sm" style="margin:.15rem 0 .6rem">${esc(p.id)}${p.integration ? " &middot; " + esc(p.integration) : " &middot; standalone"}</p>
@@ -387,6 +392,9 @@ merely new.</p>
 mkdirSync(join(OUT, "schema"), { recursive: true });
 writeFileSync(join(OUT, "schema", "lintel-1.json"), schema);
 writeFileSync(join(OUT, "schema", "presets-1.json"), read("schema/presets-1.json"));
+writeFileSync(join(OUT, "schema", "file-types-1.json"), read("schema/file-types-1.json"));
+writeFileSync(join(OUT, "file-types.json"), read("file-types.json"));
+cpSync(join(ROOT, "icons"), join(OUT, "icons"), { recursive: true });
 
 // -- /conformance and /hosts -------------------------------------------------
 

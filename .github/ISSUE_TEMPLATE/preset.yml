@@ -1,0 +1,29 @@
+name: New preset or integration
+description: Suggest a link pattern, service, language mapping, or icon for all Lintel hosts.
+title: "Preset: "
+body:
+  - type: input
+    id: service
+    attributes:
+      label: Service or file type
+      placeholder: Unblocked Code
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example text or link
+      description: A public or invented example printed in a terminal. Do not include secrets.
+      placeholder: UNB-123
+    validations:
+      required: true
+  - type: input
+    id: destination
+    attributes:
+      label: Expected destination
+      placeholder: https://getunblocked.com/dashboard/team/current/coding-task/UNB-123
+  - type: textarea
+    id: details
+    attributes:
+      label: Variants and presentation
+      description: Other examples, filename extensions, language name, desired icon, or preview details.

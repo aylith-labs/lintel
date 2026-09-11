@@ -1,0 +1,675 @@
+{
+    "$schema": "./schema/file-types-1.json",
+    "version": 1,
+    "revealLabels": {
+        "win32": "Show in Explorer",
+        "darwin": "Reveal in Finder",
+        "linux": "Show in File Manager",
+        "default": "Show in File Manager"
+    },
+    "types": [
+        {
+            "id": "csharp",
+            "name": "C#",
+            "extensions": [
+                "cs"
+            ],
+            "filenames": [],
+            "language": "csharp",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/csharp.svg",
+            "png": "icons/files/csharp.png",
+            "badge": "C#",
+            "color": "#68217a"
+        },
+        {
+            "id": "typescript",
+            "name": "TypeScript",
+            "extensions": [
+                "ts",
+                "tsx",
+                "mts",
+                "cts"
+            ],
+            "filenames": [],
+            "language": "typescript",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/typescript.svg",
+            "png": "icons/files/typescript.png",
+            "badge": "TS",
+            "color": "#3178c6"
+        },
+        {
+            "id": "javascript",
+            "name": "JavaScript",
+            "extensions": [
+                "js",
+                "jsx",
+                "mjs",
+                "cjs"
+            ],
+            "filenames": [],
+            "language": "javascript",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/javascript.svg",
+            "png": "icons/files/javascript.png",
+            "badge": "JS",
+            "color": "#806500"
+        },
+        {
+            "id": "cpp",
+            "name": "C++",
+            "extensions": [
+                "cpp",
+                "cc",
+                "cxx",
+                "hpp",
+                "hh",
+                "hxx"
+            ],
+            "filenames": [],
+            "language": "cpp",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/cpp.svg",
+            "png": "icons/files/cpp.png",
+            "badge": "C++",
+            "color": "#00599c"
+        },
+        {
+            "id": "c",
+            "name": "C",
+            "extensions": [
+                "c",
+                "h"
+            ],
+            "filenames": [],
+            "language": "c",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/c.svg",
+            "png": "icons/files/c.png",
+            "badge": "C",
+            "color": "#3949ab"
+        },
+        {
+            "id": "python",
+            "name": "Python",
+            "extensions": [
+                "py",
+                "pyi",
+                "pyw"
+            ],
+            "filenames": [],
+            "language": "python",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/python.svg",
+            "png": "icons/files/python.png",
+            "badge": "PY",
+            "color": "#3776ab"
+        },
+        {
+            "id": "rust",
+            "name": "Rust",
+            "extensions": [
+                "rs"
+            ],
+            "filenames": [],
+            "language": "rust",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/rust.svg",
+            "png": "icons/files/rust.png",
+            "badge": "RS",
+            "color": "#9b4316"
+        },
+        {
+            "id": "go",
+            "name": "Go",
+            "extensions": [
+                "go"
+            ],
+            "filenames": [],
+            "language": "go",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/go.svg",
+            "png": "icons/files/go.png",
+            "badge": "GO",
+            "color": "#007d9c"
+        },
+        {
+            "id": "java",
+            "name": "Java",
+            "extensions": [
+                "java"
+            ],
+            "filenames": [],
+            "language": "java",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/java.svg",
+            "png": "icons/files/java.png",
+            "badge": "JV",
+            "color": "#b44400"
+        },
+        {
+            "id": "ruby",
+            "name": "Ruby",
+            "extensions": [
+                "rb",
+                "rake"
+            ],
+            "filenames": [],
+            "language": "ruby",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/ruby.svg",
+            "png": "icons/files/ruby.png",
+            "badge": "RB",
+            "color": "#a91401"
+        },
+        {
+            "id": "powershell",
+            "name": "PowerShell",
+            "extensions": [
+                "ps1",
+                "psm1",
+                "psd1"
+            ],
+            "filenames": [],
+            "language": "powershell",
+            "groups": [
+                "sourceCode",
+                "executable"
+            ],
+            "icon": "icons/files/powershell.svg",
+            "png": "icons/files/powershell.png",
+            "badge": "PS",
+            "color": "#0066b8"
+        },
+        {
+            "id": "shell",
+            "name": "Shell",
+            "extensions": [
+                "sh",
+                "bash",
+                "zsh",
+                "fish"
+            ],
+            "filenames": [],
+            "language": "bash",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/shell.svg",
+            "png": "icons/files/shell.png",
+            "badge": "SH",
+            "color": "#347c2c"
+        },
+        {
+            "id": "kotlin",
+            "name": "Kotlin",
+            "extensions": [
+                "kt",
+                "kts"
+            ],
+            "filenames": [],
+            "language": "kotlin",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/kotlin.svg",
+            "png": "icons/files/kotlin.png",
+            "badge": "KT",
+            "color": "#7952d6"
+        },
+        {
+            "id": "swift",
+            "name": "Swift",
+            "extensions": [
+                "swift"
+            ],
+            "filenames": [],
+            "language": "swift",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/swift.svg",
+            "png": "icons/files/swift.png",
+            "badge": "SW",
+            "color": "#c64e22"
+        },
+        {
+            "id": "php",
+            "name": "PHP",
+            "extensions": [
+                "php"
+            ],
+            "filenames": [],
+            "language": "php",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/php.svg",
+            "png": "icons/files/php.png",
+            "badge": "PHP",
+            "color": "#66589c"
+        },
+        {
+            "id": "sql",
+            "name": "SQL",
+            "extensions": [
+                "sql"
+            ],
+            "filenames": [],
+            "language": "sql",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/sql.svg",
+            "png": "icons/files/sql.png",
+            "badge": "SQL",
+            "color": "#00758f"
+        },
+        {
+            "id": "css",
+            "name": "CSS",
+            "extensions": [
+                "css",
+                "scss",
+                "sass",
+                "less"
+            ],
+            "filenames": [],
+            "language": "css",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/css.svg",
+            "png": "icons/files/css.png",
+            "badge": "CSS",
+            "color": "#2457a7"
+        },
+        {
+            "id": "html",
+            "name": "HTML",
+            "extensions": [
+                "html",
+                "htm"
+            ],
+            "filenames": [],
+            "language": "xml",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/html.svg",
+            "png": "icons/files/html.png",
+            "badge": "HT",
+            "color": "#bd401c"
+        },
+        {
+            "id": "markdown",
+            "name": "Markdown",
+            "extensions": [
+                "md",
+                "markdown",
+                "mdown"
+            ],
+            "filenames": [],
+            "language": "markdown",
+            "groups": [
+                "document"
+            ],
+            "icon": "icons/files/markdown.svg",
+            "png": "icons/files/markdown.png",
+            "badge": "MD",
+            "color": "#405270"
+        },
+        {
+            "id": "text",
+            "name": "Plain text",
+            "extensions": [
+                "txt",
+                "log"
+            ],
+            "filenames": [],
+            "language": "",
+            "groups": [
+                "document"
+            ],
+            "icon": "icons/files/text.svg",
+            "png": "icons/files/text.png",
+            "badge": "TXT",
+            "color": "#586174"
+        },
+        {
+            "id": "json",
+            "name": "JSON",
+            "extensions": [
+                "json",
+                "jsonc"
+            ],
+            "filenames": [],
+            "language": "json",
+            "groups": [],
+            "icon": "icons/files/json.svg",
+            "png": "icons/files/json.png",
+            "badge": "{}",
+            "color": "#586174"
+        },
+        {
+            "id": "yaml",
+            "name": "YAML",
+            "extensions": [
+                "yaml",
+                "yml"
+            ],
+            "filenames": [],
+            "language": "yaml",
+            "groups": [],
+            "icon": "icons/files/yaml.svg",
+            "png": "icons/files/yaml.png",
+            "badge": "YML",
+            "color": "#586174"
+        },
+        {
+            "id": "toml",
+            "name": "TOML",
+            "extensions": [
+                "toml"
+            ],
+            "filenames": [],
+            "language": "toml",
+            "groups": [],
+            "icon": "icons/files/toml.svg",
+            "png": "icons/files/toml.png",
+            "badge": "TML",
+            "color": "#586174"
+        },
+        {
+            "id": "ini",
+            "name": "INI",
+            "extensions": [
+                "ini",
+                "cfg",
+                "conf"
+            ],
+            "filenames": [],
+            "language": "ini",
+            "groups": [],
+            "icon": "icons/files/ini.svg",
+            "png": "icons/files/ini.png",
+            "badge": "INI",
+            "color": "#586174"
+        },
+        {
+            "id": "xml",
+            "name": "XML",
+            "extensions": [
+                "xml",
+                "xaml",
+                "csproj"
+            ],
+            "filenames": [],
+            "language": "xml",
+            "groups": [],
+            "icon": "icons/files/xml.svg",
+            "png": "icons/files/xml.png",
+            "badge": "XML",
+            "color": "#586174"
+        },
+        {
+            "id": "csv",
+            "name": "CSV",
+            "extensions": [
+                "csv",
+                "tsv"
+            ],
+            "filenames": [],
+            "language": "",
+            "groups": [],
+            "icon": "icons/files/csv.svg",
+            "png": "icons/files/csv.png",
+            "badge": "CSV",
+            "color": "#586174"
+        },
+        {
+            "id": "image",
+            "name": "Image",
+            "extensions": [
+                "png",
+                "jpg",
+                "jpeg",
+                "gif",
+                "bmp",
+                "webp",
+                "svg",
+                "ico",
+                "tif",
+                "tiff"
+            ],
+            "filenames": [],
+            "language": "",
+            "groups": [
+                "image",
+                "media"
+            ],
+            "icon": "icons/files/image.svg",
+            "png": "icons/files/image.png",
+            "badge": "IMG",
+            "color": "#267b7c"
+        },
+        {
+            "id": "video",
+            "name": "Video",
+            "extensions": [
+                "mp4",
+                "mkv",
+                "webm",
+                "mov",
+                "avi"
+            ],
+            "filenames": [],
+            "language": "",
+            "groups": [
+                "video",
+                "media"
+            ],
+            "icon": "icons/files/video.svg",
+            "png": "icons/files/video.png",
+            "badge": "VID",
+            "color": "#7852a3"
+        },
+        {
+            "id": "audio",
+            "name": "Audio",
+            "extensions": [
+                "mp3",
+                "wav",
+                "flac",
+                "ogg",
+                "m4a"
+            ],
+            "filenames": [],
+            "language": "",
+            "groups": [
+                "audio",
+                "media"
+            ],
+            "icon": "icons/files/audio.svg",
+            "png": "icons/files/audio.png",
+            "badge": "AUD",
+            "color": "#967000"
+        },
+        {
+            "id": "pdf",
+            "name": "PDF document",
+            "extensions": [
+                "pdf"
+            ],
+            "filenames": [],
+            "language": "",
+            "groups": [
+                "document"
+            ],
+            "icon": "icons/files/pdf.svg",
+            "png": "icons/files/pdf.png",
+            "badge": "PDF",
+            "color": "#b5262b"
+        },
+        {
+            "id": "word",
+            "name": "Word document",
+            "extensions": [
+                "docx",
+                "doc"
+            ],
+            "filenames": [],
+            "language": "",
+            "groups": [
+                "document"
+            ],
+            "icon": "icons/files/word.svg",
+            "png": "icons/files/word.png",
+            "badge": "DOC",
+            "color": "#185abd"
+        },
+        {
+            "id": "excel",
+            "name": "Excel workbook",
+            "extensions": [
+                "xlsx",
+                "xls"
+            ],
+            "filenames": [],
+            "language": "",
+            "groups": [
+                "document"
+            ],
+            "icon": "icons/files/excel.svg",
+            "png": "icons/files/excel.png",
+            "badge": "XLS",
+            "color": "#107c41"
+        },
+        {
+            "id": "powerpoint",
+            "name": "PowerPoint presentation",
+            "extensions": [
+                "pptx",
+                "ppt"
+            ],
+            "filenames": [],
+            "language": "",
+            "groups": [
+                "document"
+            ],
+            "icon": "icons/files/powerpoint.svg",
+            "png": "icons/files/powerpoint.png",
+            "badge": "PPT",
+            "color": "#c43e1c"
+        },
+        {
+            "id": "archive",
+            "name": "Archive",
+            "extensions": [
+                "zip",
+                "7z",
+                "rar",
+                "tar",
+                "gz",
+                "bz2",
+                "xz",
+                "tgz"
+            ],
+            "filenames": [],
+            "language": "",
+            "groups": [
+                "archive"
+            ],
+            "icon": "icons/files/archive.svg",
+            "png": "icons/files/archive.png",
+            "badge": "ZIP",
+            "color": "#866016"
+        },
+        {
+            "id": "executable",
+            "name": "Executable",
+            "extensions": [
+                "exe",
+                "msi",
+                "bat",
+                "cmd"
+            ],
+            "filenames": [],
+            "language": "",
+            "groups": [
+                "executable"
+            ],
+            "icon": "icons/files/executable.svg",
+            "png": "icons/files/executable.png",
+            "badge": "EXE",
+            "color": "#586174"
+        },
+        {
+            "id": "dockerfile",
+            "name": "Dockerfile",
+            "extensions": [],
+            "filenames": [
+                "Dockerfile",
+                "Containerfile"
+            ],
+            "language": "dockerfile",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/dockerfile.svg",
+            "png": "icons/files/dockerfile.png",
+            "badge": "DK",
+            "color": "#1769aa"
+        },
+        {
+            "id": "makefile",
+            "name": "Makefile",
+            "extensions": [],
+            "filenames": [
+                "Makefile",
+                "GNUmakefile"
+            ],
+            "language": "makefile",
+            "groups": [
+                "sourceCode"
+            ],
+            "icon": "icons/files/makefile.svg",
+            "png": "icons/files/makefile.png",
+            "badge": "MK",
+            "color": "#586174"
+        },
+        {
+            "id": "file",
+            "name": "File",
+            "extensions": [],
+            "filenames": [],
+            "language": "",
+            "groups": [],
+            "icon": "icons/files/file.svg",
+            "png": "icons/files/file.png",
+            "badge": "FILE",
+            "color": "#586174"
+        }
+    ]
+}

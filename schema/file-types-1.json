@@ -1,0 +1,27 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Lintel file type catalog v1",
+    "type": "object",
+    "required": ["version", "revealLabels", "types"],
+    "properties": {
+        "version": { "const": 1 },
+        "revealLabels": { "type": "object", "required": ["win32", "darwin", "linux", "default"], "additionalProperties": { "type": "string" } },
+        "types": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["id", "name", "extensions", "filenames", "language", "groups", "icon", "png"],
+                "properties": {
+                    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+                    "name": { "type": "string", "minLength": 1 },
+                    "extensions": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9]+$" } },
+                    "filenames": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+                    "language": { "type": "string" },
+                    "groups": { "type": "array", "items": { "enum": ["image", "video", "audio", "media", "sourceCode", "document", "archive", "executable"] } },
+                    "icon": { "type": "string", "pattern": "^icons/files/[a-z0-9-]+\\.svg$" },
+                    "png": { "type": "string", "pattern": "^icons/files/[a-z0-9-]+\\.png$" }
+                }
+            }
+        }
+    }
+}
