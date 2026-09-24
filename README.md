@@ -43,7 +43,7 @@ That is the whole idea. `CAB-8209` in a build log is now hoverable, and the card
 | [`file-types.json`](file-types.json) | Shared language names, extensions, filenames, icons, file groups and platform reveal labels. |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Propose a preset or add one with `npm run preset:add`; no terminal build required. |
 | [`integrations/`](integrations/) | The canonical manifests. Hosts sync from here. |
-| [`conformance/`](conformance/) | `node conformance/run.mjs`. What "conformant" means, executably. |
+| [`conformance/`](conformance/) | Canonical data and host manifest parity checks. |
 
 ## Who implements it
 

@@ -1,7 +1,7 @@
 {
   "name": "@aylith/lintel",
   "version": "1.0.0",
-  "description": "One manifest, every terminal. The Lintel standard, its schema, its presets and its conformance suite.",
+  "description": "Shared terminal integration manifests, schema, presets and conformance checks.",
   "license": "MIT",
   "type": "module",
   "scripts": {
