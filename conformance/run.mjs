@@ -154,19 +154,40 @@ const allowances = readJson(join(ROOT, "conformance", "allowances.json")).hosts;
 const HOSTS = [
 	{
 		name: "Windows Terminal",
+		flag: "--terminal",
 		dir: "/mnt/c/Users/steve/projects/terminal/src/cascadia/TerminalSettingsModel/integrations",
 	},
 	{
 		name: "Torbie",
+		flag: "--torbie",
 		dir: "/mnt/c/Users/steve/projects/tabby/tabby-links/src/integrations",
 	},
 ];
 
-for (const host of HOSTS) {
-	if (!existsSync(host.dir)) {
-		notes.push(`${host.name}: not checked out here, skipped`);
+const args = process.argv.slice(2);
+for (let i = 0; i < args.length; i++) {
+	const host = HOSTS.find((candidate) => candidate.flag === args[i]);
+	if (!host) {
+		fail(`unknown argument ${args[i]}`);
 		continue;
 	}
+	if (!args[i + 1] || args[i + 1].startsWith("--")) {
+		fail(`${host.flag} requires a manifest directory`);
+		continue;
+	}
+	host.dir = args[++i];
+	host.pinned = true;
+}
+
+let checkedHosts = 0;
+for (const host of HOSTS) {
+	if (!existsSync(host.dir)) {
+		if (host.pinned) fail(`${host.name}: manifest directory does not exist: ${host.dir}`);
+		else notes.push(`${host.name}: not checked out here, skipped`);
+		continue;
+	}
+	checkedHosts++;
+	notes.push(`${host.name}: checked ${manifests.size} manifests at ${host.dir}`);
 	for (const [id] of manifests) {
 		const there = join(host.dir, `${id}.json`);
 		if (!existsSync(there)) {
@@ -197,7 +218,7 @@ for (const host of HOSTS) {
 
 for (const note of notes) console.log(`  note  ${note}`);
 if (failures.length === 0) {
-	console.log(`\nConformant: ${manifests.size} manifests, ${presets.length} presets.`);
+	console.log(`\n${checkedHosts ? "Host manifest parity passed" : "Canonical data validated; no hosts checked"}: ${manifests.size} manifests, ${presets.length} presets.`);
 	process.exit(0);
 }
 console.error(`\n${failures.length} failure${failures.length === 1 ? "" : "s"}:\n`);

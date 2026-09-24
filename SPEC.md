@@ -1,8 +1,8 @@
 # The Lintel standard, version 1
 
-**Status: draft.** Two hosts implement it and a third is adopting it. The conformance suite in this
-repo is what "implements it" means; where this document and that suite disagree, the suite is the
-bug report.
+**Status: draft.** Windows Terminal and Torbie are documented consumers. The conformance suite
+checks manifest copies when their directories are available; it does not prove runtime behavior.
+Shefrd produces addresses described by a Lintel manifest, but is not checked as a host by the suite.
 
 A **manifest** is a JSON document that teaches a terminal to recognise a reference in its output,
 look it up, and show what it found. The terminal executes; the manifest only describes.
@@ -162,9 +162,10 @@ steps as opt-in, and **SHOULD** show the user what a manifest will reach before 
 
 ## 11. Conformance
 
-An implementation is conformant if `conformance/run.mjs` passes against its manifest directory. The
-suite checks that every manifest is well formed, that every preset's example is claimed by exactly
-one matcher, and that each host ships what this repo says is canonical.
+`conformance/run.mjs --terminal <manifest-directory>` or `--torbie <manifest-directory>` checks a
+specific host's manifest copies. The suite checks basic manifest structure, preset examples and
+top-level key parity with allowed differences. It does not test host runtime behavior. A default
+run that skips absent host directories validates only the canonical data.
 
 Where a host cannot ship the canonical copy, the divergence goes in `conformance/allowances.json`
 with a reason **about the host**. "Not synced yet" is not a reason; it is the finding.

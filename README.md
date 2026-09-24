@@ -51,11 +51,13 @@ That is the whole idea. `CAB-8209` in a build log is now hoverable, and the card
 |---|---|
 | **Windows Terminal** (aylith fork) | C++/WinRT, ICU regex, `Windows.Web.Http`, credentials in the Windows vault. |
 | **Torbie** | TypeScript/Angular, JS `RegExp`, Node `https`, credentials via Electron `safeStorage`. |
-| **shefrd** | Rust, the multiplexer's own hover and click surface. |
+| **shefrd** | Produces `shefrd://` addresses described by a Lintel manifest; it is not a host checked by the conformance runner. |
 
-The compatibility test is not a promise, it is a command: `conformance/run.mjs` reads each host's
-manifests off disk and reports any key that differs from the canonical copy. A divergence that is
-written down in [`conformance/allowances.json`](conformance/allowances.json), with a reason about
+Run `node conformance/run.mjs --torbie /path/to/torbie/tabby-links/src/integrations` to compare a
+specific host's manifests against the canonical copy. Use `--terminal` with the Windows Terminal
+fork's `src/cascadia/TerminalSettingsModel/integrations` directory. Without an explicit path, the
+runner tries its historical Windows mount paths and reports when those hosts are skipped. A
+divergence written down in [`conformance/allowances.json`](conformance/allowances.json), with a reason about
 the host, is a decision. One that is not is drift, and the suite fails on it.
 
 ## Why it has a name

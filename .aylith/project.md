@@ -1,14 +1,13 @@
 ---
 name: Lintel
-tagline: One manifest, every terminal.
-status: active
+tagline: Shared manifests for terminal link previews.
 category: developer-tools
-description: A standard for teaching a terminal what the text in it means. A JSON manifest says how to recognise a reference, how to look it up and how to show it; the terminal executes and the manifest only describes. Implemented by the Windows Terminal fork, Torbie and shefrd, with a conformance suite that checks all three against the same files.
-links: {"spec": "https://lintel.aylith.com/spec", "site": "https://lintel.aylith.com"}
+description: A shared manifest format for terminal link previews and actions. Lintel supplies integration data, presets and conformance checks for consuming terminals; it is not a standalone terminal app.
 ---
 
-Lintel is the format the Aylith terminals share for link previews and click actions.
+Lintel is a supporting protocol for terminal link previews and click actions. Torbie bundles six integration manifests. The Windows Terminal fork is documented as a consumer; its manifest parity can be checked when its checkout is available. Shefrd provides addresses that terminals can recognize; it is not checked as a manifest host by Lintel's runner.
 
-A terminal shows you text, and almost all of it is a reference to something that lives
-somewhere else. Lintel closes that loop with a file rather than a plugin: hover the text,
-get a card; click it, land on the thing.
+An integration manifest describes references, lookups, cards and click actions. A consuming
+terminal executes it. Lintel's conformance checks validate canonical manifests, preset examples
+and the manifest copies in any host directory explicitly supplied to the runner. They do not
+verify all runtime behavior, credential handling or action safety.
