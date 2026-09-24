@@ -181,13 +181,14 @@ for (let i = 0; i < args.length; i++) {
 
 let checkedHosts = 0;
 for (const host of HOSTS) {
+	if (HOSTS.some((candidate) => candidate.pinned) && !host.pinned) continue;
 	if (!existsSync(host.dir)) {
 		if (host.pinned) fail(`${host.name}: manifest directory does not exist: ${host.dir}`);
 		else notes.push(`${host.name}: not checked out here, skipped`);
 		continue;
 	}
 	checkedHosts++;
-	notes.push(`${host.name}: checked ${manifests.size} manifests at ${host.dir}`);
+	const failuresBeforeHost = failures.length;
 	for (const [id] of manifests) {
 		const there = join(host.dir, `${id}.json`);
 		if (!existsSync(there)) {
@@ -212,6 +213,7 @@ for (const host of HOSTS) {
 			notes.push(`${host.name}: ${id}.json differs at ${keys.join(", ")} -- allowed: ${allowed.reason.split(".")[0]}.`);
 		}
 	}
+	if (failures.length === failuresBeforeHost) notes.push(`${host.name}: checked ${manifests.size} manifests at ${host.dir}`);
 }
 
 // ---- report ----------------------------------------------------------------

@@ -16,7 +16,8 @@ try {
   cpSync(join(root, 'integrations'), temp, { recursive: true });
   const matching = run(temp);
   assert.equal(matching.status, 0, matching.stderr);
-  assert.match(matching.stdout, /Torbie: checked 6 manifests/);
+  assert.match(matching.stdout, /Torbie: checked \d+ manifests/);
+  assert.doesNotMatch(matching.stdout, /Windows Terminal/);
 
   const missing = run(join(temp, 'absent'));
   assert.notEqual(missing.status, 0);

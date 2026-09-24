@@ -165,7 +165,7 @@ steps as opt-in, and **SHOULD** show the user what a manifest will reach before 
 `conformance/run.mjs --terminal <manifest-directory>` or `--torbie <manifest-directory>` checks a
 specific host's manifest copies. The suite checks basic manifest structure, preset examples and
 top-level key parity with allowed differences. It does not test host runtime behavior. A default
-run that skips absent host directories validates only the canonical data.
+run with no available host directory validates only the canonical data.
 
 Where a host cannot ship the canonical copy, the divergence goes in `conformance/allowances.json`
 with a reason **about the host**. "Not synced yet" is not a reason; it is the finding.
