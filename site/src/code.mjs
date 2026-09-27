@@ -232,7 +232,8 @@ function foldsFor(lines, lang) {
 
 // ---- rendering --------------------------------------------------------------
 
-const CHEVRON = '<button type="button" class="fold-chev" tabindex="-1" aria-hidden="true" data-fold-chev></button>';
+const chevron = (open) =>
+	`<button type="button" class="fold-chev" aria-label="Toggle this block" aria-expanded="${open}" data-fold-chev></button>`;
 
 /**
  * Move a line's first `n` spaces into a span of their own, so a closing
@@ -268,7 +269,7 @@ function renderRange(start, end, folds, source, html) {
 
 		const inline = f.type !== "lines";
 		if (inline) html[f.close] = splitLead(html[f.close], /^\s*/.exec(source[f.close])[0].length);
-		out += html[i].replace('<span class="line">', `<span class="line has-fold${inline ? " inl" : ""}${f.open_ ? "" : " closed"}">${CHEVRON}`);
+		out += html[i].replace('<span class="line">', `<span class="line has-fold${inline ? " inl" : ""}${f.open_ ? "" : " closed"}">${chevron(f.open_)}`);
 		const { summary, count } = describe(f, source);
 		const indent = /^\s*/.exec(source[f.open + 1] ?? "")[0].length;
 		const label = `${summary ? `<span class="fold-keys">${esc(summary)}</span>` : ""}<span class="fold-count">${esc(count)}</span>`;

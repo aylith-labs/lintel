@@ -197,7 +197,23 @@ figure.code.compact:hover .copy-float, .copy-float:focus-visible, .copy-float.do
   border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg);
 }
 figure.code pre:hover .fold-chev { opacity: .55; }
-.line.has-fold:hover .fold-chev, .fold-chev:hover { opacity: 1; color: var(--accent); }
+.fold-chev:focus-visible { opacity: 1; outline: 2px solid var(--accent); outline-offset: 1px; border-radius: 3px; }
+
+/* The whole row is the toggle. A row is the opening line; a closed inline
+   fold is also its summary and its closing bracket, so hovering any of the
+   three lights all three and the chevron. */
+.line.has-fold, .line.inl.closed + .fold > .fold-row, .line.inl.closed + .fold + .line { cursor: pointer; }
+.line.has-fold:hover,
+.line.has-fold:has(+ .fold > .fold-row:hover),
+.line.inl.closed:has(+ .fold + .line:hover),
+.line.inl.closed:hover + .fold + .line,
+.line.inl.closed + .fold:has(> .fold-row:hover) + .line,
+.line.inl.closed + .fold + .line:hover { background: var(--accent-soft); border-radius: 4px; }
+.line.has-fold:hover .fold-chev,
+.line.has-fold:has(+ .fold > .fold-row:hover) .fold-chev,
+.line.inl.closed:has(+ .fold + .line:hover) .fold-chev { opacity: 1; color: var(--accent); }
+.line.inl.closed:hover + .fold .fold-btn,
+.line.inl.closed:has(+ .fold + .line:hover) + .fold .fold-btn { border-color: var(--accent); color: var(--accent); }
 .line.closed .fold-chev { transform: rotate(-90deg); opacity: .8; }
 .fold-row { display: block; padding-left: calc(var(--indent, 0) * 1ch); }
 .fold-btn {

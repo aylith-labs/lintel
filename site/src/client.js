@@ -157,8 +157,18 @@
 		const [row, body] = fold.children;
 		if (row) row.hidden = open;
 		if (body) body.hidden = !open;
-		fold.previousElementSibling?.classList.toggle("closed", !open);
+		const line = fold.previousElementSibling;
+		line?.classList.toggle("closed", !open);
+		line?.querySelector("[data-fold-chev]")?.setAttribute("aria-expanded", String(open));
 	}
+
+	// Keyboard: the chevron is the row's focusable handle.
+	document.addEventListener("keydown", (e) => {
+		const chev = e.target.closest?.("[data-fold-chev]");
+		if (!chev || (e.key !== "Enter" && e.key !== " ")) return;
+		e.preventDefault();
+		chev.click();
+	});
 
 	function syncToggle(fig) {
 		const btn = $("[data-code-toggle]", fig);
@@ -228,6 +238,27 @@
 			const expand = !!$(".fold[data-open='false']", fig);
 			for (const f of $$(".fold", fig)) setFold(f, expand);
 			syncToggle(fig);
+			return;
+		}
+
+		// The whole row toggles, not just the chevron: the opening line of any
+		// fold, and -- for a closed one drawn inline -- the summary and the
+		// closing bracket beside it. A click that ends a text selection is a
+		// selection, not a toggle, so copying a key out of a row still works.
+		// isCollapsed, not toString(): serialising the selection needs layout,
+		// and a plain click always collapses it on mousedown anyway.
+		if (!t.closest("figure.code pre") || !getSelection().isCollapsed) return;
+		let fold = null;
+		const row = t.closest(".fold-row");
+		if (row) fold = row.parentElement;
+		else {
+			const line = t.closest(".line");
+			if (line?.classList.contains("has-fold")) fold = line.nextElementSibling;
+			else if (line?.previousElementSibling?.matches(".fold[data-open='false']")) fold = line.previousElementSibling;
+		}
+		if (fold?.classList.contains("fold")) {
+			setFold(fold, fold.dataset.open !== "true");
+			syncToggle(fold.closest("figure.code"));
 		}
 	});
 
