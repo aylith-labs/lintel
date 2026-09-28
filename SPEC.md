@@ -240,3 +240,39 @@ Account API references: [GitHub organizations](https://docs.github.com/en/rest/o
 [Jira current user](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-myself/),
 [Slack auth.test](https://docs.slack.dev/reference/methods/auth.test/) and
 [Slack users.info](https://docs.slack.dev/reference/methods/users.info/).
+
+## Host interactions
+
+Everything above is about the manifest, the part hosts share as data. This section is about what a
+reader does with a match, which each host builds itself. It is written down so the hosts converge
+on one set of gestures instead of three.
+
+A host **MUST** show a match's card on hover and open its link on click, which is what the rest of
+this document assumes. Beyond that, a host **SHOULD** offer:
+
+1. **A preview pane.** A pinned side surface that follows whatever match the pointer rests on, so a
+   reader can scan a buffer without the card closing each time the pointer moves on.
+2. **Look up a selection.** A selection gesture distinct from copy, `Alt+Shift` plus drag by
+   default, that runs the selected text through the matchers as if it had been hovered and shows
+   the card for it. Plain `Shift+drag` stays the host's ordinary copy.
+3. **A list of the buffer's matches.** Every match in the scrollback, newest first, as a scrollable
+   vertical list. Choosing an entry shows the same card a hover would and scrolls the buffer to
+   it.
+
+A host **MAY** offer:
+
+4. **Modal-aware box selection.** When an application running in the terminal draws a bordered
+   region (a dialog, a panel), a selection started inside it stays inside it, the way selecting
+   text in one web page element does not run into its neighbours. This needs the application to
+   say where its regions are, and no escape sequence for that exists yet. Until one is proposed
+   here, a host **MUST NOT** guess region bounds from box-drawing characters.
+
+Where the hosts stand, measured by reading their histories on Mon 2026-09-28:
+
+| Interaction | Windows Terminal fork | Torbie | shefrd |
+|---|---|---|---|
+| Hover card and click | yes | yes | yes |
+| Preview pane | yes (`3f221ee31`) | side-panel extension point only | no |
+| Look up a selection | no | no | no |
+| List of the buffer's matches | no | no | no |
+| Modal-aware box selection | no (no protocol) | no (no protocol) | no (no protocol) |
