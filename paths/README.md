@@ -16,8 +16,16 @@ budget. Paths are data, never shell command text.
    opening one. Do not start a shell to resolve a hover.
 5. Linux/macOS POSIX paths remain local paths. Parse file URI fragments and
    percent escapes before applying this policy; never percent-decode bare paths.
+6. `~/...` is part of the path, not text before one: detection keeps the `~`, so
+   `~/.claude/x.md` is never read as the absolute `/.claude/x.md`. It expands to the
+   home of whoever printed it, which the host supplies: the source distribution's
+   home when the source is WSL, otherwise the host's own home (the Windows profile
+   directory on Windows). With no known home there is no candidate. Do not probe
+   other distributions for a home, and do not guess one.
 
-Hosts provide distribution names from their registry/session context and perform
+Hosts provide distribution names and home directories from their registry/session
+context (a WSL home comes from the distribution's default user and its
+`/etc/passwd`, read over the file system, never by starting a shell) and perform
 bounded filesystem checks off the UI thread. The pure module does no filesystem,
 process or registry I/O. A `Z:\...` mapped drive stays a Windows path regardless of
 what backs the mapping.

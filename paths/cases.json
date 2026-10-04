@@ -75,5 +75,68 @@
     "source": "Ubuntu",
     "distros": [],
     "paths": []
+  },
+  {
+    "text": "~/.claude/plans/notes-tui-handoff-prompt.md",
+    "windows": true,
+    "source": "Ubuntu",
+    "distros": [
+      "Debian"
+    ],
+    "homes": {
+      "Ubuntu": "/home/stevenp"
+    },
+    "paths": [
+      "\\\\wsl.localhost\\Ubuntu\\home\\stevenp\\.claude\\plans\\notes-tui-handoff-prompt.md"
+    ]
+  },
+  {
+    "text": "~/.bashrc",
+    "windows": true,
+    "source": "Debian",
+    "distros": [],
+    "homes": {
+      "Debian": "/root/"
+    },
+    "paths": [
+      "\\\\wsl.localhost\\Debian\\root\\.bashrc"
+    ]
+  },
+  {
+    "text": "~/.claude/settings.json",
+    "windows": true,
+    "source": "Ubuntu",
+    "distros": [
+      "Ubuntu"
+    ],
+    "homes": {},
+    "paths": []
+  },
+  {
+    "text": "~/.claude/settings.json",
+    "windows": true,
+    "source": null,
+    "distros": [
+      "Ubuntu"
+    ],
+    "homes": {
+      "": "C:\\Users\\steve",
+      "Ubuntu": "/home/stevenp"
+    },
+    "paths": [
+      "C:\\Users\\steve\\.claude\\settings.json"
+    ]
+  },
+  {
+    "text": "~/notes/a.md",
+    "windows": false,
+    "source": null,
+    "distros": [],
+    "homes": {
+      "": "/home/me"
+    },
+    "paths": [
+      "/home/me/notes/a.md"
+    ]
   }
 ]
