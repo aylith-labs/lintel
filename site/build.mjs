@@ -29,6 +29,9 @@ import { marked } from "marked";
 import { initHighlighter, codeBlock, highlightCss } from "./src/code.mjs";
 import { buildSearchIndex, plain } from "./src/search-index.mjs";
 
+import { publicBase, publicHtml } from "./src/public-paths.mjs";
+const BASE = publicBase(process.env.LINTEL_BASE_PATH);
+
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
 const OUT = join(HERE, "dist");
@@ -177,7 +180,7 @@ function flushPages(tokenCss, clientSrc) {
 		mkdirSync(dir, { recursive: true });
 		writeFileSync(
 			join(dir, "index.html"),
-			html.replace("/*@TOKENS@*/", () => tokenCss).replace("@CLIENT@", () => clientSrc),
+			publicHtml(html.replace("/*@TOKENS@*/", () => tokenCss).replace("@CLIENT@", () => clientSrc), BASE),
 		);
 	}
 }
@@ -477,7 +480,7 @@ if (existsSync(join(HERE, "static"))) {
 // that is really on the page it names.
 
 mkdirSync(join(OUT, "assets"), { recursive: true });
-const search = buildSearchIndex(PAGES);
+const search = buildSearchIndex(PAGES.map(page => ({ ...page, path: BASE + page.path })));
 writeFileSync(join(OUT, "assets", "search.json"), search.json);
 // minisearch's `exports` map hides its UMD build from require.resolve, so walk
 // to the package directory from the entry it does export.
@@ -491,6 +494,9 @@ console.log(`search index: ${search.count} sections, ${(search.json.length / 102
 const clientHash = createHash("sha256").update(CLIENT).digest("hex").slice(0, 10);
 const clientPath = `/assets/site.${clientHash}.js`;
 writeFileSync(join(OUT, clientPath), CLIENT);
+const overview = PENDING.find(page => page.path === "/");
+if (!overview) throw new Error("Full overview homepage missing");
+write("/home/", overview.html);
 flushPages(highlightCss(), clientPath);
 
 console.log(`built ${NAV.length} pages into site/dist${suitePassed ? "" : "  (conformance FAILING)"}`);

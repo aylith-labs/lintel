@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the verified root artifact
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -36,16 +41,31 @@ jobs:
           cache-dependency-path: site/package-lock.json
       - run: npm ci
       - run: npm run build
+      - run: node check.mjs
+      - run: mv dist dist-root
+      - run: LINTEL_BASE_PATH=/lintel npm run build
+      - run: LINTEL_BASE_PATH=/lintel node check.mjs
+      - run: rm -rf dist && mv dist-root dist
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site/dist
 
   deploy:
+    if: github.event_name == 'workflow_dispatch' && inputs.publish
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Verify root artifact binding
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          domain=$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.cname // ""')
+          if [ "$domain" != "lintel.aylith.com" ]; then
+            echo "::error::Root publication requires the configured lintel.aylith.com Pages binding"
+            exit 1
+          fi
       - id: deployment
         uses: actions/deploy-pages@v4

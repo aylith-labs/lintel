@@ -1,3 +1,4 @@
+const PUBLIC_BASE = document.documentElement.dataset.base ?? "";
 /*
  * lintel.aylith.com, client side. One script, inlined into every page.
  *
@@ -292,12 +293,12 @@
 		loading ??= new Promise((resolve, reject) => {
 			if (window.MiniSearch) return resolve();
 			const s = document.createElement("script");
-			s.src = "/assets/minisearch.js";
+			s.src = PUBLIC_BASE + "/assets/minisearch.js";
 			s.onload = resolve;
 			s.onerror = reject;
 			document.head.append(s);
 		})
-			.then(() => fetch("/assets/search.json"))
+			.then(() => fetch(PUBLIC_BASE + "/assets/search.json"))
 			.then((r) => r.json())
 			.then(({ options, index: data }) => { index = window.MiniSearch.loadJS(data, options); })
 			.catch((err) => { loading = null; throw err; });

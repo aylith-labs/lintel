@@ -84,3 +84,15 @@ Synchronize language metadata and its reusable SVG/PNG icons with
 `node conformance/sync-file-types.mjs --terminal /path/to/terminal --torbie /path/to/torbie`.
 Pass `--check` to verify consumers. Native hosts use the PNG assets; web hosts can use
 the SVGs directly or the generated TypeScript catalog, which embeds them as data URLs.
+
+
+The documentation overview is available at `/` and `/home/`. The latter always
+serves the full standard overview; Lintel does not introduce a hosted account or
+terminal application. The site build supports an empty `LINTEL_BASE_PATH` for
+`lintel.aylith.com` and `/lintel` for a repository Pages preview. From `site`, run
+`npm ci`, `npm run build`, and `node check.mjs`; repeat build/check with
+`LINTEL_BASE_PATH=/lintel` to validate the repository prefix. Pushes run the
+conformance and both documentation preflights. Publishing requires an explicit
+workflow dispatch with `publish=true` and uses the verified root artifact only after an actual Pages API binding
+readback equals `lintel.aylith.com`. API failure or a missing/different binding
+fails publication closed.
