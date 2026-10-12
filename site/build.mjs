@@ -104,6 +104,7 @@ function page({ path, title, description, body }) {
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://lintel.aylith.com${path}">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <style>${STYLE}/*@TOKENS@*/</style>
 <script src="@CLIENT@" defer></script>
 </head>

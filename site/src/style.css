@@ -174,10 +174,9 @@ figure.code pre { scrollbar-width: thin; scrollbar-color: var(--rule) transparen
 figure.code pre::-webkit-scrollbar { height: 8px; }
 figure.code pre::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 8px; }
 figure.code.compact { margin: .3rem 0 0; border-radius: 8px; }
-/* A one-liner is a URL or a pattern: wrapping it reads better than a
-   scrollbar under a single line. */
-figure.code.compact pre { padding: .5rem 4.2rem .5rem .8rem; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-all; }
-figure.code.compact pre code { min-width: 0; }
+/* A one-liner is a URL, a pattern or a sample line: it never breaks inside
+   a word -- on a narrow screen it scrolls sideways in its own box. */
+figure.code.compact pre { padding: .5rem 4.2rem .5rem .8rem; white-space: pre; }
 .copy-float {
   position: absolute; top: .3rem; right: .3rem; background: var(--code-bar);
   opacity: 0; transition: opacity .12s;
@@ -349,6 +348,10 @@ mark.hit.current span { color: var(--hit-ink) !important; }
   .search-trigger .label, .search-trigger kbd { display: none; }
   dialog.search { margin-top: .75rem; max-height: calc(100vh - 1.5rem); }
   .search-foot { display: none; }
+  /* One row of tabs that scrolls sideways rather than wrapping to two. */
+  nav { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav a { flex-shrink: 0; white-space: nowrap; }
   dl.kv { grid-template-columns: minmax(0, 1fr); gap: .1rem; }
 }
 @media (prefers-reduced-motion: reduce) {
