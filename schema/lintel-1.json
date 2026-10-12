@@ -154,7 +154,9 @@
                 "editor": {
                     "enum": [
                         "text",
-                        "github-owners"
+                        "toggle",
+                        "github-owners",
+                        "github-repo-owners"
                     ]
                 }
             }

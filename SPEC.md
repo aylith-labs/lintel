@@ -226,13 +226,43 @@ PATs may return no memberships. Both lists are paginated, with a current host
 limit of three pages of 100 entries per list. Partial discovery is labelled;
 manual additions remain available.
 
-The `github-owners` setting editor presents `candidateOwners` as editable,
-reorderable rows with add/remove controls and a menu of discovered organizations.
-The stored representation remains a comma-separated string for compatibility.
-Names are validated as GitHub account identifiers and deduplicated without case
-sensitivity. The first accessible issue under the preferred organizations wins.
-Reference lookup is bounded to eight seconds; there is no repo-only cache that
-can survive a change in issue number or organization order.
+The `github-owners` setting editor presents `candidateOwners` as editable rows
+that reorder by drag and drop, with add/remove controls and a menu of discovered
+organizations. The stored representation remains a comma-separated string for
+compatibility. Names are validated as GitHub account identifiers and
+deduplicated without case sensitivity.
+
+### Resolving `repo#number`
+
+A bare `repo#number` names no owner, so the host supplies one. It tries owners in
+this order, and the first owner under which `GET /repos/{owner}/{repo}/issues/{number}`
+succeeds wins:
+
+1. **Remembered picks.** `repoOwners` maps a repository name to the owner the user
+   chose for it (`terminal=microsoft,lintel=aylith-labs`). An entry is consulted
+   first and, when it resolves, alone.
+2. **Pinned organizations.** `candidateOwners`, in the user's order. Pinning is how
+   a tie between two accessible organizations that share a repository name is broken.
+3. **Discovered owners.** The verified login, then the organizations and repository
+   owners found by account discovery, minus any already tried. Owners whose
+   discovered repositories include the name are tried before the rest. The user
+   does not have to list an organization they can already reach. A host **SHOULD**
+   cache discovery for the session and refresh it in the background.
+4. **Repository search.** `GET /search/repositories?q={repo} in:name&sort=stars`,
+   keeping only repositories whose name equals `repo` without case sensitivity,
+   most-starred first. Search is rate-limited separately (30 requests a minute
+   authenticated), so a host **MUST** cache the result per repository name.
+   - With `autoPickOwner` on (the default) the host tries those owners in order and
+     the card **MUST** say the owner was assumed, offering to change it.
+   - With it off, or when the user asks to change an assumed owner, the card shows
+     the owners as a filterable list. Choosing one writes `repo=owner` to
+     `repoOwners` and resolves again.
+
+Steps 1–3 and the automatic part of step 4 share an eight-second budget. Only an
+explicit pick is remembered: an inferred owner is cached no longer than the
+preview itself, so pinning an organization or removing a pick takes effect on the
+next lookup. The `github-repo-owners` editor lists `repoOwners` as rows the user
+can remove. The `toggle` editor stores `"true"` or `"false"`.
 
 The shipped repo#number expression matches within prose. Hosts migrate only
 its exact old expression with a known shipped name, preserving custom rules.

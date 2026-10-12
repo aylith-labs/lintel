@@ -4,6 +4,10 @@ const read = name => JSON.parse(readFileSync(new URL('../integrations/' + name +
 for (const provider of ['github','jira','slack']) assert.equal(read(provider).account.provider,provider);
 const github = read('github');
 assert.equal(github.settings.find(x => x.key === 'candidateOwners').editor,'github-owners');
+assert.equal(github.settings.find(x => x.key === 'repoOwners').editor,'github-repo-owners');
+const autoPick = github.settings.find(x => x.key === 'autoPickOwner');
+assert.equal(autoPick.editor,'toggle');
+assert.equal(autoPick.default,'true');
 const matcher = github.matchers.find(x=>x.kind==='text');
 const pattern = new RegExp(matcher.pattern,'g');
 assert.deepEqual([...('See terminal#18920 and repo#2 for details').matchAll(pattern)].map(x=>x[0]),['terminal#18920','repo#2']);

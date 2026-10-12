@@ -84,7 +84,7 @@
             "id": "github-repo-number",
             "integration": "github",
             "label": "Pull requests and issues as repo#number",
-            "description": "Resolves repo#number using your preferred organizations, in order",
+            "description": "Resolves repo#number through your organizations, pinned ones first, then the most-starred repository of that name",
             "match": "text",
             "example": "terminal#18920",
             "preview": true,

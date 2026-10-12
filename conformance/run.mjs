@@ -155,7 +155,7 @@ const HOSTS = [
 	{
 		name: "Windows Terminal",
 		flag: "--terminal",
-		dir: "/mnt/c/Users/steve/projects/terminal/src/cascadia/TerminalSettingsModel/integrations",
+		dir: "/mnt/c/Users/steve/projects/mullion/src/cascadia/TerminalSettingsModel/integrations",
 	},
 	{
 		name: "Torbie",
