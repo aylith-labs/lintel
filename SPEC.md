@@ -187,6 +187,25 @@ Hosts preserve original link identity separately from a filesystem target resolv
 originating terminal context (including its WSL distro). Unsupported content must retain
 ordinary link actions and report an unavailable preview without another integration's icon.
 
+A file on another machine is never resolved to a local or UNC path (`paths/README.md`, rule 7).
+A host that knows a pane is on another machine (its OSC 7 names a host that is not this one)
+may preview that machine's files through a **remote reader**. Mullion's is
+`shefrd machine read <machine> <path> --max-bytes <n>`, run in WSL:
+
+- `<machine>` is the OSC 7 host, verbatim. `<path>` is absolute POSIX, or `~/...` for the
+  remote user's home. Both travel as arguments, never as shell text.
+- stdout is one JSON line. On success it is
+  `{"ok":true,"kind":"file","size":N,"mtime":"<RFC 3339>","truncated":bool,"bytes":M}`,
+  followed by exactly M raw bytes, with M at most `--max-bytes`. On failure it is
+  `{"ok":false,"error":"not_found|not_regular|too_large|denied|not_connected|unsupported"}`.
+  The exit code is not read.
+- The reader accepts regular files only (after symlinks), rides only an existing
+  connection, and never opens one for a hover.
+- The host bounds the call: Mullion uses 5 s and 1 MiB. `not_found`, `not_regular` and
+  `too_large` are said plainly. Anything else, including a missing reader, a timeout or a
+  malformed reply, is a quiet "Preview unavailable", never an error. The preview has no
+  filesystem path, so a remote Markdown file's relative images resolve to nothing.
+
 Windows Terminal supports text, raster images, rendered PDF pages and extracted DOCX/XLSX/PPTX
 content. Torbie shares the preset catalog; this does not assert equivalent document rendering.
 Office macros, recalculation and external relationships are not part of a content preview.

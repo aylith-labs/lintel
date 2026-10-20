@@ -1,8 +1,12 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { pathCandidates, selectPathCandidate } from '../paths/pathResolution.ts';
+import { pathCandidates, selectPathCandidate, fileHostKind, isRemoteUncPath } from '../paths/pathResolution.ts';
 const cases = JSON.parse(readFileSync(new URL('../paths/cases.json', import.meta.url), 'utf8'));
-for (const c of cases) assert.deepEqual(pathCandidates(c.text,c.windows,c.source,c.distros,c.homes ?? {}).map(p=>p.path), c.paths, c.text);
+for (const c of cases) {
+    if ('fileHost' in c) assert.equal(fileHostKind(c.fileHost, c.localNames), c.kind, `host "${c.fileHost}"`);
+    else if ('uncPath' in c) assert.equal(isRemoteUncPath(c.uncPath, c.localNames), c.remote, c.uncPath);
+    else assert.deepEqual(pathCandidates(c.text,c.windows,c.source,c.distros,c.homes ?? {}).map(p=>p.path), c.paths, c.text);
+}
 const candidates = pathCandidates('/tmp/a.md', true, null, ['Ubuntu','Debian']);
 assert.equal(selectPathCandidate(candidates,[true,true]),null);
 assert.equal(selectPathCandidate(candidates,[false,false]),null);

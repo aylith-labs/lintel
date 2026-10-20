@@ -138,5 +138,210 @@
     "paths": [
       "/home/me/notes/a.md"
     ]
+  },
+  {
+    "fileHost": "",
+    "localNames": [],
+    "kind": "local"
+  },
+  {
+    "fileHost": "localhost",
+    "localNames": [],
+    "kind": "local"
+  },
+  {
+    "fileHost": "LocalHost",
+    "localNames": [],
+    "kind": "local"
+  },
+  {
+    "fileHost": "127.0.0.1",
+    "localNames": [],
+    "kind": "local"
+  },
+  {
+    "fileHost": "::1",
+    "localNames": [],
+    "kind": "local"
+  },
+  {
+    "fileHost": "nextgen",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "kind": "local"
+  },
+  {
+    "fileHost": "NEXTGEN.example.lan",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "kind": "local"
+  },
+  {
+    "fileHost": "wsl.localhost",
+    "localNames": [],
+    "kind": "wsl"
+  },
+  {
+    "fileHost": "WSL$",
+    "localNames": [],
+    "kind": "wsl"
+  },
+  {
+    "fileHost": "server",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "kind": "remote"
+  },
+  {
+    "fileHost": "nitromarchy",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "kind": "remote"
+  },
+  {
+    "fileHost": "wsl.localhost.example.com",
+    "localNames": [],
+    "kind": "remote"
+  },
+  {
+    "fileHost": "nextgen",
+    "localNames": [],
+    "kind": "remote"
+  },
+  {
+    "uncPath": "\\\\server\\share\\x.md",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": true
+  },
+  {
+    "uncPath": "//server/share/x.md",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": true
+  },
+  {
+    "uncPath": "\\\\server",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": true
+  },
+  {
+    "uncPath": "\\\\?\\UNC\\server\\share\\x.md",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": true
+  },
+  {
+    "uncPath": "\\\\.\\pipe\\x",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": true
+  },
+  {
+    "uncPath": "\\\\?\\Volume{0}\\x",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": true
+  },
+  {
+    "uncPath": "\\\\\\x",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": true
+  },
+  {
+    "uncPath": "\\\\wsl.localhost\\Ubuntu\\etc\\hosts",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": false
+  },
+  {
+    "uncPath": "\\\\wsl$\\Debian\\etc\\hosts",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": false
+  },
+  {
+    "uncPath": "\\\\localhost\\c$\\x.md",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": false
+  },
+  {
+    "uncPath": "\\\\NEXTGEN\\share\\x",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": false
+  },
+  {
+    "uncPath": "\\\\?\\C:\\Users\\x.md",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": false
+  },
+  {
+    "uncPath": "\\\\?\\UNC\\wsl.localhost\\Ubuntu\\x",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": false
+  },
+  {
+    "uncPath": "C:\\Users\\x.md",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": false
+  },
+  {
+    "uncPath": "/home/stevenp/x.md",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": false
+  },
+  {
+    "uncPath": "",
+    "localNames": [
+      "NEXTGEN",
+      "nextgen.example.lan"
+    ],
+    "remote": false
   }
 ]

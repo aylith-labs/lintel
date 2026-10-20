@@ -22,6 +22,17 @@ budget. Paths are data, never shell command text.
    home when the source is WSL, otherwise the host's own home (the Windows profile
    directory on Windows). With no known home there is no candidate. Do not probe
    other distributions for a home, and do not guess one.
+7. A `file://` host that is not this machine or WSL names a **remote path**. It never
+   becomes a UNC path (`file://server/share/x` is not `\\server\share\x`), and nothing
+   that runs without a click (a hover, a preview, an existence check, a Markdown image)
+   reads it or any `\\server\...` path on another machine. That would be an SMB
+   connection to whatever machine a program in the terminal chose to print.
+   `fileHostKind` / `ClassifyFileHost` say which kind a host is, and
+   `isRemoteUncPath` / `IsRemoteUncPath` say whether a UNC path is on another
+   machine. Empty, `localhost`, `127.0.0.1`, `::1` and the names the host supplies
+   for itself are local; `wsl$` and `wsl.localhost` are WSL; everything else is
+   remote. A remote path is previewed only through a remote reader (SPEC.md, "Host
+   file-preview capability"), and only when the pane is known to be on that machine.
 
 Hosts provide distribution names and home directories from their registry/session
 context (a WSL home comes from the distribution's default user and its
