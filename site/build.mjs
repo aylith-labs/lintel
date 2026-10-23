@@ -216,7 +216,7 @@ terminal is the only thing that executes.</p>
 
 <div class="card">
 <p class="kicker">a build log prints</p>
-${codeBlock("FAILED  CAB-8209  attribute-tagging-service  (3 tests)", "text", { compact: true })}
+${codeBlock("FAILED  ACME-8209  billing-service  (3 tests)", "text", { compact: true })}
 <p class="kicker" style="margin-top:1.1rem">and this is the whole of what makes it hoverable</p>
 ${codeBlock(JSON.stringify(exampleMatcher, null, 2), "json", { title: "integrations/jira.json · matchers[]" })}
 </div>

@@ -29,7 +29,7 @@ that executes.
 }
 ```
 
-That is the whole idea. `CAB-8209` in a build log is now hoverable, and the card says what it is.
+That is the whole idea. `ACME-8209` in a build log is now hoverable, and the card says what it is.
 
 ## What is here
 
