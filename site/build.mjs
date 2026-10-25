@@ -107,6 +107,7 @@ function page({ path, title, description, body }) {
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <style>${STYLE}/*@TOKENS@*/</style>
 <script src="@CLIENT@" defer></script>
+<script defer src="https://analytics.aylith.com/script.js" data-website-id="9d1ceb75-f094-4f0f-87c4-22f5ab160092" data-domains="lintel.aylith.com"></script>
 </head>
 <body>
 <header class="site"><div class="wrap">
