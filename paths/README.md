@@ -1,7 +1,9 @@
 # Path recognition and WSL resolution
 
 The patterns recognize absolute drive paths, UNC paths and POSIX paths in text.
-They are bounded by whitespace or surrounding markup. Hosts should prefer explicit
+They are bounded by whitespace or surrounding markup, except that a path wrapped in
+matching `'` or `"` quotes keeps single spaces (`'/mnt/g/My Drive/a.mp4'`); two spaces
+in a row still end it, because hosts join wrapped and padded rows. Hosts should prefer explicit
 OSC 8 / Markdown links over detected paths, and run detection with their regex
 budget. Paths are data, never shell command text.
 

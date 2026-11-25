@@ -29,3 +29,16 @@ assert.deepEqual(ends('windows', String.raw`see C:\Users\steve\a.md. and Z:\x\y.
 console.log(`${cases.length} path cases plus ambiguity and detection checks passed.`);
 
 for (const text of ["file:///C:/Users/a.md", "https://host/C:/a.txt"]) assert.equal([...text.matchAll(new RegExp(patterns.windows, "g"))].length, 0);
+
+// A quoted path keeps its spaces; unquoted, a space still ends it. Two spaces in a row
+// are row padding (hosts join rows), so a quote never pairs across them.
+assert.deepEqual(ends('posix', "ls '/mnt/g/My Drive/ShareX Screenshots/a (1).mp4' also"), ['/mnt/g/My Drive/ShareX Screenshots/a (1).mp4']);
+assert.deepEqual(ends('posix', 'open "~/My Notes/x.md" now'), ['~/My Notes/x.md']);
+assert.deepEqual(ends('posix', 'see /mnt/g/My Drive/x.mp4'), ['/mnt/g/My']);
+assert.deepEqual(ends('posix', "'/tmp/a    next row' x"), ['/tmp/a']);
+assert.deepEqual(ends('posix', "'/tmp/a b\" c'"), ['/tmp/a']);
+assert.deepEqual(ends('posix', "bash -c 'cd /tmp && make'"), ['/tmp']);
+assert.deepEqual(ends('windows', String.raw`run "C:\Program Files\App\a b.exe" --x`), [String.raw`C:\Program Files\App\a b.exe`]);
+assert.deepEqual(ends('windows', String.raw`'\\wsl.localhost\Ubuntu\home\a b.md'`), [String.raw`\\wsl.localhost\Ubuntu\home\a b.md`]);
+assert.deepEqual(ends('windows', String.raw`see C:\Program Files\x`), [String.raw`C:\Program`]);
+console.log('Quoted path checks passed.');
